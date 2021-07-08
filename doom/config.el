@@ -56,8 +56,8 @@
   :tuple         "tuple"
   :pipe          "pipe"
   :dot           "•")
-(setq doom-font (font-spec :family "InputMonoCompressed Nerd Font" :size 14 :weight 'light))
-;; (setq doom-font (font-spec :family "PragmataProMonoLiga Nerd Font" :size 14 :weight 'normal))
+;; (setq doom-font (font-spec :family "InputMonoCompressed Nerd Font" :size 14 :weight 'light))
+(setq doom-font (font-spec :family "PragmataProMonoLiga Nerd Font" :size 14 :weight 'normal))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the

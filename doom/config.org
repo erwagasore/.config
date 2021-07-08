@@ -63,8 +63,8 @@
   :tuple         "tuple"
   :pipe          "pipe"
   :dot           "•")
-(setq doom-font (font-spec :family "InputMonoCompressed Nerd Font" :size 14 :weight 'light))
-;; (setq doom-font (font-spec :family "PragmataProMonoLiga Nerd Font" :size 14 :weight 'normal))
+;; (setq doom-font (font-spec :family "InputMonoCompressed Nerd Font" :size 14 :weight 'light))
+(setq doom-font (font-spec :family "PragmataProMonoLiga Nerd Font" :size 14 :weight 'normal))
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
