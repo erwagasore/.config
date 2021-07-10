@@ -1,9 +1,29 @@
-;;; config.el -*- lexical-binding: t; -*-
+;; (setq gcmh-idle-delay 5
+;;       gcmh-high-cons-threshold (* 100 1024 1024)
+;;       gcmh-verbose doom-debug-p)
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
-(setq user-full-name "Eugene Rwagasore"
-      user-mail-address "rwagasore@gmail.com")
+(setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
+      gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
+      gc-cons-percentage 0.6)
+
+(setq gc-cons-threshold gcmh-high-cons-threshold)
+
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (setq gc-cons-threshold gcmh-low-cons-threshold
+          gc-cons-percentage 0.1)))
+
+(defun doom-defer-garbage-collection-h ()
+  (setq gc-cons-threshold gcmh-high-cons-threshold))
+
+(defun doom-restore-garbage-collection-h ()
+  ;; Defer it so that commands launched immediately after will enjoy the
+  ;; benefits.
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
+
+(add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
+(add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
 
 (setq-default
  delete-by-moving-to-trash t
@@ -11,12 +31,15 @@
 
 (setq mac-mouse-wheel-smooth-scroll t)
 
-(setq gcmh-idle-delay 5
-      gcmh-high-cons-threshold (* 100 1024 1024)
-      gcmh-verbose doom-debug-p)
-
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+;;; config.el -*- lexical-binding: t; -*-
+
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets.
+(setq user-full-name "Eugene Rwagasore"
+      user-mail-address "rwagasore@gmail.com")
 
 (plist-put! +ligatures-extra-symbols
   ;; org
@@ -26,7 +49,7 @@
   :quote         "“"
   :quote_end     "”"
   ;; Functional
-  :lambda        "ƒ"
+  :lambda        "𝝺"
   :def           "ƒ"
   :composition   "∘"
   :map           "⯮"
@@ -47,8 +70,8 @@
   :or            "∨"
   :for           "∀"
   :some          "∃"
-  :return        "⟼"
-  :yield         "⟻"
+  :return        "⤦"
+  :yield         "↦"
   ;; Other
   :union         "⋃"
   :intersect     "∩"
@@ -56,13 +79,9 @@
   :tuple         "tuple"
   :pipe          "pipe"
   :dot           "•")
-;; (setq doom-font (font-spec :family "InputMonoCompressed Nerd Font" :size 14 :weight 'light))
-(setq doom-font (font-spec :family "PragmataProMonoLiga Nerd Font" :size 14 :weight 'normal))
+(setq doom-font (font-spec :family "Iosevka Custom" :size 13 :weight 'Extralight))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-vibrant)
 
 (after! doom-theme
   (setq doom-themes-enable-bold nil
@@ -97,6 +116,9 @@
  x-stretch-cursor t)
 
 (blink-cursor-mode t)
+
+(after! web
+  )
 
 (setq indent-tabs-mode nil
       web-mode-attr-indent-offset nil
