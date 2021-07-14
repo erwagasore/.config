@@ -1,7 +1,8 @@
 set -x EDITOR emacs
 set -x VISUAL emacs
 set -x TERM xterm-256color
-set -x STARSHIP_CONFIG ~/.config/fish/starship.toml
+set -x XDG_CONFIG_HOME ~/.config
+set -x STARSHIP_CONFIG $XDG_CONFIG_HOME/fish/starship.toml
 
 set -x fish_greeting
 

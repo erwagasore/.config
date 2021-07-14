@@ -1,32 +1,32 @@
 #+STARTUP: overview
 * Sane Defaults
 #+begin_src emacs-lisp
-;; (setq gcmh-idle-delay 5
-;;       gcmh-high-cons-threshold (* 100 1024 1024)
-;;       gcmh-verbose doom-debug-p)
+(setq gcmh-idle-delay 5
+      gcmh-high-cons-threshold (* 100 1024 1024)
+      gcmh-verbose doom-debug-p)
 
-(setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
-      gc-cons-percentage 0.6)
+;; (setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
+;;       gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
+;;       gc-cons-percentage 0.6)
 
-(setq gc-cons-threshold gcmh-high-cons-threshold)
+;; (setq gc-cons-threshold gcmh-high-cons-threshold)
 
-(add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq gc-cons-threshold gcmh-low-cons-threshold
-          gc-cons-percentage 0.1)))
+;; (add-hook 'emacs-startup-hook
+;;   (lambda ()
+;;     (setq gc-cons-threshold gcmh-low-cons-threshold
+;;           gc-cons-percentage 0.1)))
 
-(defun doom-defer-garbage-collection-h ()
-  (setq gc-cons-threshold gcmh-high-cons-threshold))
+;; (defun doom-defer-garbage-collection-h ()
+;;   (setq gc-cons-threshold gcmh-high-cons-threshold))
 
-(defun doom-restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
-  (run-at-time
-   1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
+;; (defun doom-restore-garbage-collection-h ()
+;;   ;; Defer it so that commands launched immediately after will enjoy the
+;;   ;; benefits.
+;;   (run-at-time
+;;    1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
 
-(add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
-(add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
+;; (add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
+;; (add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
 
 (setq-default
  delete-by-moving-to-trash t
@@ -61,7 +61,7 @@
   :composition   "∘"
   :map           "⯮"
   ;; Types
-  :null          "∅"
+  :null          "ф"
   :true          "⊤"
   :false         "⊥"
   :int           "int"
@@ -77,7 +77,7 @@
   :or            "∨"
   :for           "∀"
   :some          "∃"
-  :return        "⤦"
+  :return        "↪"
   :yield         "↦"
   ;; Other
   :union         "⋃"
@@ -86,7 +86,7 @@
   :tuple         "tuple"
   :pipe          "pipe"
   :dot           "•")
-(setq doom-font (font-spec :family "Iosevka Custom" :size 13 :weight 'Extralight))
+(setq doom-font (font-spec :family "Iosevka Custom" :size 14 :weight 'Regular))
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
@@ -134,8 +134,7 @@
 * Languages Configurations
 ** Astro configuration
 #+begin_src emacs-lisp
-(after! web
-  )
+(add-to-list 'auto-mode-alist '("\\.astro\\'" . typescript-tsx-mode))
 #+end_src
 ** Web Mode Configurations
 #+begin_src emacs-lisp
@@ -175,8 +174,8 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 
-(after!
+(after! forge
   (push
    '("er.github.com" "api.github.com" "github.com" forge-github-repository)
-   forge-Balist))
+   forge-alist))
 #+end_src
