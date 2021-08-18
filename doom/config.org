@@ -64,11 +64,6 @@
   :null          "ф"
   :true          "⊤"
   :false         "⊥"
-  :int           "int"
-  :float         "float"
-  :str           "str"
-  :bool          "bool"
-  :list          "list"
   ;; Flow
   :not           "￢"
   :in            "∈"
@@ -83,14 +78,12 @@
   :union         "⋃"
   :intersect     "∩"
   :diff          "∖"
-  :tuple         "tuple"
-  :pipe          "pipe"
   :dot           "•")
 (setq doom-font (font-spec :family "Iosevka Custom" :size 14 :weight 'Regular))
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-one)
 
 (after! doom-theme
   (setq doom-themes-enable-bold nil
@@ -116,7 +109,7 @@
 (setq display-line-numbers-type nil)
 
 ;; Maximize the window to fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; enable transparent titlebar with dark-mode
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -151,6 +144,12 @@
       web-mode-enable-auto-pairing t
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2)
+#+end_src
+** Python Mode Configurations
+#+begin_src emacs-lisp
+(setq-default flycheck-python-flake8-executable "flake8helled")
+(setq-default lsp-pyls-configuration-sources ["flake8helled"])
+(setq-default lsp-pylsp-configuration-sources ["flake8helled"])
 #+end_src
 * Clients Configurations
 ** LSP

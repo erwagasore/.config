@@ -1,29 +1,29 @@
-;; (setq gcmh-idle-delay 5
-;;       gcmh-high-cons-threshold (* 100 1024 1024)
-;;       gcmh-verbose doom-debug-p)
+(setq gcmh-idle-delay 5
+      gcmh-high-cons-threshold (* 100 1024 1024)
+      gcmh-verbose doom-debug-p)
 
-(setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
-      gc-cons-percentage 0.6)
+;; (setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
+;;       gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
+;;       gc-cons-percentage 0.6)
 
-(setq gc-cons-threshold gcmh-high-cons-threshold)
+;; (setq gc-cons-threshold gcmh-high-cons-threshold)
 
-(add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq gc-cons-threshold gcmh-low-cons-threshold
-          gc-cons-percentage 0.1)))
+;; (add-hook 'emacs-startup-hook
+;;   (lambda ()
+;;     (setq gc-cons-threshold gcmh-low-cons-threshold
+;;           gc-cons-percentage 0.1)))
 
-(defun doom-defer-garbage-collection-h ()
-  (setq gc-cons-threshold gcmh-high-cons-threshold))
+;; (defun doom-defer-garbage-collection-h ()
+;;   (setq gc-cons-threshold gcmh-high-cons-threshold))
 
-(defun doom-restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
-  (run-at-time
-   1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
+;; (defun doom-restore-garbage-collection-h ()
+;;   ;; Defer it so that commands launched immediately after will enjoy the
+;;   ;; benefits.
+;;   (run-at-time
+;;    1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
 
-(add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
-(add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
+;; (add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
+;; (add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
 
 (setq-default
  delete-by-moving-to-trash t
@@ -54,14 +54,9 @@
   :composition   "∘"
   :map           "⯮"
   ;; Types
-  :null          "∅"
+  :null          "ф"
   :true          "⊤"
   :false         "⊥"
-  :int           "int"
-  :float         "float"
-  :str           "str"
-  :bool          "bool"
-  :list          "list"
   ;; Flow
   :not           "￢"
   :in            "∈"
@@ -70,18 +65,16 @@
   :or            "∨"
   :for           "∀"
   :some          "∃"
-  :return        "⤦"
+  :return        "↪"
   :yield         "↦"
   ;; Other
   :union         "⋃"
   :intersect     "∩"
   :diff          "∖"
-  :tuple         "tuple"
-  :pipe          "pipe"
   :dot           "•")
-(setq doom-font (font-spec :family "Iosevka Custom" :size 13 :weight 'Extralight))
+(setq doom-font (font-spec :family "Iosevka Custom" :size 14 :weight 'Regular))
 
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-one)
 
 (after! doom-theme
   (setq doom-themes-enable-bold nil
@@ -102,7 +95,7 @@
 (setq display-line-numbers-type nil)
 
 ;; Maximize the window to fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; enable transparent titlebar with dark-mode
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -117,8 +110,7 @@
 
 (blink-cursor-mode t)
 
-(after! web
-  )
+(add-to-list 'auto-mode-alist '("\\.astro\\'" . typescript-tsx-mode))
 
 (setq indent-tabs-mode nil
       web-mode-attr-indent-offset nil
@@ -133,6 +125,10 @@
       web-mode-enable-auto-pairing t
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2)
+
+(setq-default flycheck-python-flake8-executable "flake8helled")
+(setq-default lsp-pyls-configuration-sources ["flake8helled"])
+(setq-default lsp-pylsp-configuration-sources ["flake8helled"])
 
 (after! lsp
   (setq lsp-log-io nil
@@ -149,7 +145,7 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 
-(after!
+(after! forge
   (push
    '("er.github.com" "api.github.com" "github.com" forge-github-repository)
-   forge-Balist))
+   forge-alist))
