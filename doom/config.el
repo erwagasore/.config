@@ -2,29 +2,6 @@
       gcmh-high-cons-threshold (* 100 1024 1024)
       gcmh-verbose doom-debug-p)
 
-;; (setq gcmh-high-cons-threshold most-positive-fixnum ; 2^61 bytes
-;;       gcmh-low-cons-threshold (* 100 1024 1024)     ; 104 megabytes
-;;       gc-cons-percentage 0.6)
-
-;; (setq gc-cons-threshold gcmh-high-cons-threshold)
-
-;; (add-hook 'emacs-startup-hook
-;;   (lambda ()
-;;     (setq gc-cons-threshold gcmh-low-cons-threshold
-;;           gc-cons-percentage 0.1)))
-
-;; (defun doom-defer-garbage-collection-h ()
-;;   (setq gc-cons-threshold gcmh-high-cons-threshold))
-
-;; (defun doom-restore-garbage-collection-h ()
-;;   ;; Defer it so that commands launched immediately after will enjoy the
-;;   ;; benefits.
-;;   (run-at-time
-;;    1 nil (lambda () (setq gc-cons-threshold gcmh-low-cons-threshold))))
-
-;; (add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
-;; (add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
-
 (setq-default
  delete-by-moving-to-trash t
  window-combination-resize t)
@@ -34,10 +11,6 @@
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-;;; config.el -*- lexical-binding: t; -*-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
 (setq user-full-name "Eugene Rwagasore"
       user-mail-address "rwagasore@gmail.com")
 
@@ -74,15 +47,11 @@
   :dot           "•")
 (setq doom-font (font-spec :family "Iosevka Custom" :size 14 :weight 'Regular))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'zaiste)
 
 (after! doom-theme
   (setq doom-themes-enable-bold nil
         doom-themes-enable-italic nil))
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Orgfiles/")
 
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
@@ -109,6 +78,37 @@
  x-stretch-cursor t)
 
 (blink-cursor-mode t)
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq
+ org-log-done 'time
+ org-tags-column -80
+ org-directory "~/Orgfiles/"
+ org-roam-directory "~/Orgfiles/roam/"
+ org-agenda-files (directory-files-recursively "~/Orgfiles/roam/daily/" "\.org$")
+ org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+ org-todo-keyword-faces
+ '(("TODO" :foreground "#7C7C75" :weight normal :underline t)
+   ("WAITING" :foreground "#9F7EFE" :weight normal :underline t)
+   ("INPROGRESS" :foreground "#0098DD" :weight normal :underline t)
+   ("DONE" :foreground "#50A14F" :weight normal :underline t)
+   ("CANCELLED" :foreground "#FF6480" :weight normal :underline t)))
+
+(after! org-superstar
+  (setq
+   org-superstar-headline-bullets-list '("⁖")))
+
+(after! org-fancy-priorities
+  (setq
+   org-priority-highest '?A
+   org-priority-lowest  '?D
+   org-priority-default '?B
+   org-priority-faces '((?A :foreground "#E45649")
+                        (?B :foreground "#DA8548")
+                        (?C :foreground "#0098DD")
+                        (?D :foreground "#7C7C75"))
+   org-fancy-priorities-list '("[#A - NOW]" "[#B - NEXT]" "[#C - LAST]" "[#D - MAYBE]")))
 
 (add-to-list 'auto-mode-alist '("\\.astro\\'" . typescript-tsx-mode))
 

@@ -4,6 +4,6 @@
 tmp/
 yarn/
 mozilla/
-/doom/config.el
 karibiner/automatic-backups/*
 iosevka/dist/*
+doom/config.el
