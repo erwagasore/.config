@@ -45,7 +45,8 @@
   :intersect     "∩"
   :diff          "∖"
   :dot           "•")
-(setq doom-font (font-spec :family "Iosevka Custom" :size 14 :weight 'Regular))
+
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 14 :weight 'Regular))
 
 (setq doom-theme 'zaiste)
 
@@ -63,8 +64,26 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
 
-;; Maximize the window to fullscreen
-;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; Set window size based on the screen resolution
+(defun set-frame-size-according-to-resolution ()
+  (interactive)
+  (when (display-graphic-p)
+    (progn
+      ;; use 120 char wide window for largeish displays
+      ;; and smaller 80 column windows for smaller displays
+      ;; pick whatever numbers make sense for you
+      (if (> (x-display-pixel-width) 1280)
+          (add-to-list 'default-frame-alist (cons 'width 113))
+        (add-to-list 'default-frame-alist (cons 'width 80)))
+      ;; for the height, subtract a couple hundred pixels
+      ;; from the screen height (for panels, menubars and
+      ;; whatnot), then divide by the height of a char to
+      ;; get the height we want
+      (add-to-list 'default-frame-alist 
+                   (cons 'height (/ (- (x-display-pixel-height) 192)
+                                    (frame-char-height)))))))
+
+(set-frame-size-according-to-resolution)
 
 ;; enable transparent titlebar with dark-mode
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -84,16 +103,23 @@
 (setq
  org-log-done 'time
  org-tags-column -80
- org-directory "~/Orgfiles/"
- org-roam-directory "~/Orgfiles/roam/"
- org-agenda-files (directory-files-recursively "~/Orgfiles/roam/daily/" "\.org$")
- org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
- org-todo-keyword-faces
- '(("TODO" :foreground "#7C7C75" :weight normal :underline t)
-   ("WAITING" :foreground "#9F7EFE" :weight normal :underline t)
-   ("INPROGRESS" :foreground "#0098DD" :weight normal :underline t)
-   ("DONE" :foreground "#50A14F" :weight normal :underline t)
-   ("CANCELLED" :foreground "#FF6480" :weight normal :underline t)))
+ org-directory "~/Dropbox/Orgfiles/"
+ org-ellipsis "￢"
+ org-roam-directory "~/Dropbox/Orgfiles/roam/"
+ org-agenda-files (directory-files-recursively "~/Dropbox/Orgfiles/roam/daily/" "\.org$"))
+
+(after! org
+  (setq
+   org-modules '(org-habit)
+   org-todo-keywords
+   '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "MOVED(m)" "CANCELLED(c)"))
+   org-todo-keyword-faces
+   '(("TODO" :foreground "#7C7C75" :weight normal :underline t)
+     ("WAITING" :foreground "#9F7EFE" :weight normal :underline t)
+     ("INPROGRESS" :foreground "#0098DD" :weight normal :underline t)
+     ("DONE" :foreground "#50A14F" :weight normal :underline t)
+     ("MOVED" :foreground "#7C7C75" :weight normal :underline t)
+     ("CANCELLED" :foreground "#FF6480" :weight normal :underline t))))
 
 (after! org-superstar
   (setq
@@ -108,9 +134,37 @@
                         (?B :foreground "#DA8548")
                         (?C :foreground "#0098DD")
                         (?D :foreground "#7C7C75"))
-   org-fancy-priorities-list '("[#A - NOW]" "[#B - NEXT]" "[#C - LAST]" "[#D - MAYBE]")))
+   org-fancy-priorities-list '("NOW" "NEXT" "LAST" "MAYBE")))
 
-(add-to-list 'auto-mode-alist '("\\.astro\\'" . typescript-tsx-mode))
+(setq org-roam-capture-templates
+      '(("d" "default" plain
+         "%?"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+title: ${title}\n#+created_at: %u\n#+modified_at: %U\n\n")
+         :unnarrowed t)
+        ("b" "book notes" plain
+         (file "~/Dropbox/Orgfiles/roam/templates/book-notes.org")
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+title: ${title}\n#+created_at: %u\n#+modified_at: %U\n\n")
+         :unnarrowed t)))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+        "* %?"
+        :if-new (file+head "%<%Y-%m-%d>.org"
+                           "#+title: %<%Y-%m-%d>\n\n"))
+        ("t" "Task" entry
+         "** TODO %?\t%^g"
+         :if-new (file+head+olp "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n\n"
+                                ("Tasks"))
+         :jump-to-captured t)
+        ("T" "Trading" entry
+         "** %?\t%^g"
+         :if-new (file+head+olp "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n\n"
+                                ("Trading"))
+         :jump-to-captured t)))
 
 (setq indent-tabs-mode nil
       web-mode-attr-indent-offset nil
