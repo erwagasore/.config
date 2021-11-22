@@ -63,7 +63,8 @@
   (doom-themes-visual-bell-config))
 
 (after! heaven-and-hell
-  (setq heaven-and-hell-themes '((light . doom-ayu-light) (dark . doom-ayu-mirage))
+  (setq heaven-and-hell-theme-type 'dark
+        heaven-and-hell-themes '((light . doom-ayu-light) (dark . doom-ayu-mirage))
         heaven-and-hell-load-theme-no-confirm t)
   (map! :leader "g" 'heaven-and-hell-toggle-theme))
 
