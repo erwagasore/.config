@@ -48,11 +48,27 @@
 
 (setq doom-font (font-spec :family "PragmataPro Liga" :size 14 :weight 'Regular))
 
-(setq doom-theme 'zaiste)
-
 (after! doom-theme
-  (setq doom-themes-enable-bold nil
-        doom-themes-enable-italic nil))
+  (setq doom-themes-padded-modeline t)
+  (doom-themes-org-config)
+  (doom-themes-visual-bell-config))
+
+(after! heaven-and-hell
+  (setq heaven-and-hell-themes '((light . doom-ayu-light) (dark . doom-ayu-mirage))
+        heaven-and-hell-load-theme-no-confirm t)
+  (map! :leader "g" 'heaven-and-hell-toggle-theme))
+
+(add-hook 'after-init-hook 'heaven-and-hell-init-hook)
+
+(custom-set-faces!
+  `(org-document-title :weight bold :height 1.5)
+  `(org-level-1 :weight bold :height 1.25)
+  `(org-level-2 :weight bold :height 1.1)
+  `(org-level-3 :weight bold :height 1.0)
+  `(org-document-title :weight bold :height 1.5)
+  `(org-document-info-keyword :height 0.75)
+  `(org-block-begin-line :height 0.65)
+  `(org-meta-line :height 0.65))
 
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
@@ -103,10 +119,10 @@
 (setq
  org-log-done 'time
  org-tags-column -80
- org-directory "~/Dropbox/Orgfiles/"
+ org-directory "~/Documents/Orgfiles"
  org-ellipsis "￢"
- org-roam-directory "~/Dropbox/Orgfiles/roam/"
- org-agenda-files (directory-files-recursively "~/Dropbox/Orgfiles/roam/daily/" "\.org$"))
+ org-roam-directory (file-truename "~/Documents/Orgfiles/roam/")
+ org-agenda-files (directory-files-recursively "~/Documents/Orgfiles/roam/daily/" "\.org$"))
 
 (after! org
   (setq
@@ -143,7 +159,7 @@
                             "#+title: ${title}\n#+created_at: %u\n#+modified_at: %U\n\n")
          :unnarrowed t)
         ("b" "book notes" plain
-         (file "~/Dropbox/Orgfiles/roam/templates/book-notes.org")
+         (file "~/Documents/Orgfiles/roam/templates/book-notes.org")
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                             "#+title: ${title}\n#+created_at: %u\n#+modified_at: %U\n\n")
          :unnarrowed t)))
