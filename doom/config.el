@@ -11,42 +11,21 @@
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+;; Help yabai to recognize emacs
+(menu-bar-mode t)
+
+;; View long lines without performance issues
+(so-long-minor-mode t)
+
+;; View Large Files in batches and reduce overhead and preformance issues
+(after! vlf
+  (custom-set-variables '(vlf-application 'dont-ask)))
+
 (setq user-full-name "Eugene Rwagasore"
       user-mail-address "rwagasore@gmail.com")
 
-(plist-put! +ligatures-extra-symbols
-  ;; org
-  :name          "»"
-  :src_block     "»"
-  :src_block_end "«"
-  :quote         "“"
-  :quote_end     "”"
-  ;; Functional
-  :lambda        "𝝺"
-  :def           "ƒ"
-  :composition   "∘"
-  :map           "⯮"
-  ;; Types
-  :null          "ф"
-  :true          "⊤"
-  :false         "⊥"
-  ;; Flow
-  :not           "￢"
-  :in            "∈"
-  :not-in        "∉"
-  :and           "∧"
-  :or            "∨"
-  :for           "∀"
-  :some          "∃"
-  :return        "↪"
-  :yield         "↦"
-  ;; Other
-  :union         "⋃"
-  :intersect     "∩"
-  :diff          "∖"
-  :dot           "•")
-
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 14 :weight 'Regular))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 14 :weight
+ 'Regular))
 
 (after! doom-theme
   (setq doom-themes-padded-modeline t)
@@ -54,7 +33,8 @@
   (doom-themes-visual-bell-config))
 
 (after! heaven-and-hell
-  (setq heaven-and-hell-themes '((light . doom-ayu-light) (dark . doom-ayu-mirage))
+  (setq heaven-and-hell-theme-type 'dark
+        heaven-and-hell-themes '((light . zaiste) (dark . doom-one))
         heaven-and-hell-load-theme-no-confirm t)
   (map! :leader "g" 'heaven-and-hell-toggle-theme))
 
@@ -79,27 +59,6 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
-
-;; Set window size based on the screen resolution
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (when (display-graphic-p)
-    (progn
-      ;; use 120 char wide window for largeish displays
-      ;; and smaller 80 column windows for smaller displays
-      ;; pick whatever numbers make sense for you
-      (if (> (x-display-pixel-width) 1280)
-          (add-to-list 'default-frame-alist (cons 'width 113))
-        (add-to-list 'default-frame-alist (cons 'width 80)))
-      ;; for the height, subtract a couple hundred pixels
-      ;; from the screen height (for panels, menubars and
-      ;; whatnot), then divide by the height of a char to
-      ;; get the height we want
-      (add-to-list 'default-frame-alist 
-                   (cons 'height (/ (- (x-display-pixel-height) 192)
-                                    (frame-char-height)))))))
-
-(set-frame-size-according-to-resolution)
 
 ;; enable transparent titlebar with dark-mode
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -158,6 +117,7 @@
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                             "#+title: ${title}\n#+created_at: %u\n#+modified_at: %U\n\n")
          :unnarrowed t)
+
         ("b" "book notes" plain
          (file "~/Documents/Orgfiles/roam/templates/book-notes.org")
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -170,7 +130,7 @@
         :if-new (file+head "%<%Y-%m-%d>.org"
                            "#+title: %<%Y-%m-%d>\n\n"))
         ("t" "Task" entry
-         "** TODO %?\t%^g"
+         (file "~/Documents/Orgfiles/roam/templates/daily.org")
          :if-new (file+head+olp "%<%Y-%m-%d>.org"
                                 "#+title: %<%Y-%m-%d>\n\n"
                                 ("Tasks"))
@@ -182,28 +142,18 @@
                                 ("Trading"))
          :jump-to-captured t)))
 
-(setq indent-tabs-mode nil
-      web-mode-attr-indent-offset nil
-      js-indent-level 2
-      typescript-indent-level 2
-      tab-width 2
-      web-mode-code-indent-offset 2
-      web-mode-css-indent-offset 2
-      web-mode-markup-indent-offset 2
-
-      web-mode-enable-auto-closing t
-      web-mode-enable-auto-pairing t
-      web-mode-auto-close-style 2
-      web-mode-tag-auto-close-style 2)
-
 (setq-default flycheck-python-flake8-executable "flake8helled")
 (setq-default lsp-pyls-configuration-sources ["flake8helled"])
 (setq-default lsp-pylsp-configuration-sources ["flake8helled"])
+
+;; for .tsx, i use lsp for formatting, so this is not needed
+(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 
 (after! lsp
   (setq lsp-log-io nil
         lsp-idle-delay 0.5
         lsp-enable-file-watchers nil
+        lsp-eslint-format nil
         lsp-eslint-auto-fix-on-save t))
 
 (after! company

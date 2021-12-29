@@ -7,7 +7,6 @@ set -gx CPPFLAGS -I/usr/local/opt/openjdk/include
 set -x fish_greeting
 
 # Added Doom Bin to PATH
-fish_add_path /nix/var/nix/profiles/default/bin
 fish_add_path ~/.emacs.d/bin
 fish_add_path /usr/local/opt/emacs-mac/bin
 fish_add_path /usr/local/opt/openjdk/bin
@@ -19,3 +18,6 @@ alias dc="docker-compose"
 
 status --is-interactive; and source (jenv init -|psub)
 starship init fish | source
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
+fish_add_path /usr/local/opt/llvm/bin

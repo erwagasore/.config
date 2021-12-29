@@ -2,14 +2,14 @@
 (doom! :completion
        (company +childframe)
        (vertico +icons)
-       (ivy +icons +fuzzy +prescient +childframe)
+       (ivy +icons +fuzzy +prescient -childframe)
 
        :ui
        doom
        (emoji +ascii +github +unicode)
        hl-todo
        indent-guides
-       (ligatures +extra)
+       (ligatures +extra +pragmata-pro)
        modeline
        nav-flash
        ophints

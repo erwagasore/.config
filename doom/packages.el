@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! heaven-and-hell)
+(package! vlf)
