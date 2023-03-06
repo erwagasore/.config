@@ -16,9 +16,6 @@
 
 (setq mac-mouse-wheel-smooth-scroll t)
 
-(setq gcmh-idle-delay 5
-      gcmh-high-cons-threshold (* 100 1024 1024))
-
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 #+end_src
@@ -31,9 +28,6 @@
 
 * Theme Configurations
 #+begin_src emacs-lisp
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
@@ -42,6 +36,16 @@
     ('dark (load-theme 'doom-ayu-mirage t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+
+(after! heaven-and-hell
+  (setq heaven-and-hell-themes
+        '((light . doom-ayu-light)
+          (dark . doom-ayu-mirage)))
+  ;; Optionall, load themes without asking for confirmation.
+  (setq heaven-and-hell-load-theme-no-confirm t)
+  (map! :g "C-c t t" 'heaven-and-hell-toggle-theme))
+
+(add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
 (after! doom-theme
   (setq doom-themes-enable-bold nil
