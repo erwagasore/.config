@@ -59,7 +59,7 @@
        javascript
        markdown
        (org +jupyter)
-       (python +lsp +tree-sitter)
+       (python +pyenv +lsp +pyright +tree-sitter)
        rest
        (rust +lsp +tree-sitter)
        (sh +lsp +tree-sitter +fish)

@@ -22,7 +22,7 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataProLiga Nerd Font" :size 15 :weight 'normal))
+(setq doom-font (font-spec :family "PragmataProLiga Nerd Font" :size 16 :weight 'normal))
 (setq default-text-properties '(line-spacing 0.125 line-height 1.125))
 #+end_src
 
@@ -101,6 +101,11 @@
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2)
 #+end_src
+** Rust
+#+begin_src emacs-lisp
+;; (after! lsp-rust
+;;   (setq lsp-rust-server 'rust-analyzer))
+#+end_src
 * Clients Configurations
 ** LSP
 #+begin_src emacs-lisp
@@ -113,9 +118,22 @@
 ** Company
 #+begin_src emacs-lisp
 (after! company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends)
   (setq company-idle-delay 0.0
         company-minimum-prefix-length 1)
   (setq company-show-numbers t))
+#+end_src
+** Copilot
+#+begin_src emacs-lisp
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map copilot-completion-map
+         ("<tab>" . 'copilot-accept-completion)
+         ("TAB" . 'copilot-accept-completion)))
 #+end_src
 ** Magit
 #+begin_src emacs-lisp
