@@ -18,6 +18,12 @@
 
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+;; autosave
+(auto-save-visited-mode t)
+(setq auto-save-timeout 1)
+(setq auto-save-interval 50)
+(setq auto-save-visited-file-name t)
 #+end_src
 
 * Font Rendering
