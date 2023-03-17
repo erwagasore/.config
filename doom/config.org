@@ -38,15 +38,15 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'doom-ayu-light t))
-    ('dark (load-theme 'doom-ayu-mirage t))))
+    ('light (load-theme 'doom-feather-light t))
+    ('dark (load-theme 'doom-feather-dark t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . doom-ayu-light)
-          (dark . doom-ayu-mirage)))
+        '((light . doom-feather-light)
+          (dark . doom-feather-dark)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t t" 'heaven-and-hell-toggle-theme))
@@ -64,8 +64,8 @@
 (setq confirm-kill-emacs nil)
 
 ;transparent adjustment
- (set-frame-parameter (selected-frame) 'alpha '(96 . 80))
- (add-to-list 'default-frame-alist '(alpha . (96 . 80)))
+ (set-frame-parameter (selected-frame) 'alpha '(92 . 80))
+ (add-to-list 'default-frame-alist '(alpha . (92 . 80)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
