@@ -141,6 +141,10 @@
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
 #+end_src
+** ChatGPT
+#+begin_src emacs-lisp
+(use-package! chatgpt-shell)
+#+end_src
 ** Magit
 #+begin_src emacs-lisp
 ;; Remove `--literal-pathspecs` argument which was causing `pre-commit` to fail
