@@ -8,7 +8,7 @@ alias python "python3.11"
 alias pip "pip3.11"
 
 # add doom binaries
-fish_add_path /Users/er/.emacs.d/bin
+fish_add_path /Users/er/.config/emacs/bin
 
 # add rust binaries
 fish_add_path /Users/er/.cargo/bin

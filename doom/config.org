@@ -28,8 +28,9 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataProLiga Nerd Font" :size 16 :weight 'normal))
-(setq default-text-properties '(line-spacing 0.125 line-height 1.125))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 16)
+      doom-big-font (font-spec :family "PragmataPro Liga" :size 24)
+      default-text-properties '(line-spacing 0.125 line-height 1.125))
 #+end_src
 
 * Theme Configurations
@@ -38,15 +39,15 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'doom-feather-light t))
-    ('dark (load-theme 'doom-feather-dark t))))
+    ('light (load-theme 'doom-ayu-light t))
+    ('dark (load-theme 'doom-ayu-dark t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . doom-feather-light)
-          (dark . doom-feather-dark)))
+        '((light . doom-ayu-light)
+          (dark . doom-ayu-dark)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t t" 'heaven-and-hell-toggle-theme))
@@ -54,8 +55,8 @@
 (add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
 (after! doom-theme
-  (setq doom-themes-enable-bold nil
-        doom-themes-enable-italic nil))
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
 #+end_src
 
 * UI Configurations
@@ -78,7 +79,6 @@
 
 ;; Maximize the window to fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
 
 ;; Customize the cursor
 (setq-default
