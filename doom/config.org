@@ -38,18 +38,18 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'doom-ayu-light t))
+    ('light (load-theme 'zaiste t))
     ('dark (load-theme 'doom-ayu-dark t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . doom-ayu-light)
+        '((light . zaiste)
           (dark . doom-ayu-dark)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
-  (map! :g "C-c t t" 'heaven-and-hell-toggle-theme))
+  (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
 
 (add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
@@ -110,6 +110,17 @@
 #+begin_src emacs-lisp
 ;; (after! lsp-rust
 ;;   (setq lsp-rust-server 'rust-analyzer))
+#+end_src
+** Org Mode
+#+begin_src emacs-lisp
+(after! org
+  (setq org-roam-directory "~/Documents/vault"
+        org-roam-dailies-directory "journals/"
+        org-roam-capture-templates
+        '(("d" "default" plain
+           "%?" :target
+           (file+head "pages/${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t))))
 #+end_src
 * Clients Configurations
 ** LSP

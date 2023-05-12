@@ -58,7 +58,7 @@
        json
        javascript
        markdown
-       (org +contacts +dragndrop +journal +pomodoro +roam2)
+       (org +contacts +dragndrop +pomodoro +pretty +roam2)
        (python +pyenv +lsp +pyright +tree-sitter)
        rest
        (rust +lsp +tree-sitter)
