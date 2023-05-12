@@ -24,11 +24,13 @@
 (setq auto-save-timeout 1)
 (setq auto-save-interval 50)
 (setq auto-save-visited-file-name t)
+(setq default-directory "~")
 #+end_src
 
 * Font Rendering
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "PragmataPro Liga" :size 16)
+      doom-big-font (font-spec :family "PragmataPro Liga" :size 27)
       default-text-properties '(line-spacing 0.125 line-height 1.125))
 #+end_src
 
@@ -90,6 +92,28 @@
 #+end_src
 
 * Languages Configurations
+** Org Mode
+#+begin_src emacs-lisp
+(after! org
+  (setq org-roam-directory "~/Documents/vault"
+        org-roam-dailies-directory "journals/"
+        org-roam-capture-templates
+        '(("d" "default" plain
+           "%?" :target
+           (file+head "pages/${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)))
+  ;; customize org face attributes
+  (set-face-attribute 'org-link nil :weight 'normal :background nil)
+  (set-face-attribute 'org-code nil :foreground "#a9a1e1" :background nil)
+  (set-face-attribute 'org-date nil :foreground "#5B6268" :background nil)
+  (set-face-attribute 'org-level-1 nil :foreground "steelblue2" :background nil :height 1.2 :weight 'normal)
+  (set-face-attribute 'org-level-2 nil :foreground "slategray2" :background nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'org-level-3 nil :foreground "SkyBlue2" :background nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'org-level-4 nil :foreground "DodgerBlue2" :background nil :height 1.0 :weight 'normal)
+  (set-face-attribute 'org-level-5 nil :weight 'normal)
+  (set-face-attribute 'org-level-6 nil :weight 'normal)
+  (set-face-attribute 'org-document-title nil :foreground "SlateGray1" :background nil :height 1.75 :weight 'bold))
+#+end_src
 ** Web Mode Configurations
 #+begin_src emacs-lisp
 (setq indent-tabs-mode nil
@@ -110,17 +134,6 @@
 #+begin_src emacs-lisp
 ;; (after! lsp-rust
 ;;   (setq lsp-rust-server 'rust-analyzer))
-#+end_src
-** Org Mode
-#+begin_src emacs-lisp
-(after! org
-  (setq org-roam-directory "~/Documents/vault"
-        org-roam-dailies-directory "journals/"
-        org-roam-capture-templates
-        '(("d" "default" plain
-           "%?" :target
-           (file+head "pages/${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t))))
 #+end_src
 * Clients Configurations
 ** LSP
