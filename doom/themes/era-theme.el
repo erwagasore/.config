@@ -1,38 +1,42 @@
-;;; zaiste-theme.el
+;;; package --- Summary
+;;; Commentary:
+;;; era-theme.el
+
+;;; Code:
 (require 'doom-themes)
 
-(defgroup zaiste-theme nil
-  "Options for doom-themes"
+(defgroup era-theme nil
+  "Options for doom-themes."
   :group 'doom-themes)
 
-(def-doom-theme zaiste
-  "A light theme inspired by Bluloco"
+(def-doom-theme era
+  "A light theme"
 
   ;; name        default   256       16
-  ((bg         '("#f0f0f0" nil       nil            ))
+  ((bg         '("#f9f9f9" nil       nil            ))
    (bg-alt     '("#fafafa" nil       nil            ))
    (base0      '("#efefef" "#efefef" "white"        ))
    (base1      '("#e7e7e7" "#e7e7e7" "brightblack"  ))
    (base2      '("#dfdfdf" "#dfdfdf" "brightblack"  ))
    (base3      '("#c6c7c7" "#c6c7c7" "brightblack"  ))
-   (base4      '("#8c8c84" "#9ca0a4" "brightblack"  ))
+   (base4      '("#a0a1a7" "#a0a1a7" "brightblack"  ))
    (base5      '("#484a42" "#424242" "brightblack"  ))
    (base6      '("#434343" "#2e2e2e" "brightblack"  ))
    (base7      '("#2c2f34" "#1e1e1e" "brightblack"  ))
    (base8      '("#1b2229" "black"   "black"        ))
-   (fg         '("#383a42" "#424242" "black"        ))
    (fg-alt     '("#c6c7c7" "#c7c7c7" "brightblack"  ))
+   (fg         '("#383a42" "#383a42" "black"        ))
 
    (grey       '("#a0a1a7" "#a0a1a7" "brightblack"  ))
-   (red        '("#e45649" "#e45649" "red"          ))
+   (red        '("#d52753" "#d52753" "red"          ))
    (orange     '("#da8548" "#dd8844" "brightred"    ))
-   (green      '("#50a14f" "#50a14f" "green"        ))
+   (green      '("#23974a" "#23974a" "green"        ))
    (teal       '("#4db5bd" "#44b9b1" "brightgreen"  ))
-   (yellow     '("#bda800" "#c5a332" "yellow"       ))
+   (yellow     '("#c5a332" "#c5a332" "yellow"       ))
    (baby-blue  '("#d2ecff" "#d2ecff" "brightblue"   ))
    (blue       '("#0098dd" "#0098dd" "brightblue"   ))
    (dark-blue  '("#275fe4" "#275fe4" "blue"         ))
-   (magenta    '("#a626a4" "#a626a4" "magenta"      ))
+   (magenta    '("#ce33c0" "#ce33c0" "magenta"      ))
    (violet     '("#823ff1" "#823ff1" "brightmagenta"))
    (cyan       '("#0184bc" "#0184bc" "brightcyan"   ))
    (dark-cyan  '("#005478" "#005478" "cyan"         ))
@@ -151,14 +155,7 @@
    (lsp-ui-doc-background      :background base0)
    (lsp-face-highlight-read    :background (doom-blend red bg 0.3))
    (lsp-face-highlight-textual :inherit 'lsp-face-highlight-read)
-   (lsp-face-highlight-write   :inherit 'lsp-face-highlight-read)
-
-
-   )
-
-  ;; --- extra variables ---------------------
-  ;;()
-  )
+   (lsp-face-highlight-write   :inherit 'lsp-face-highlight-read)))
 
 (after! org
   (setq
@@ -175,4 +172,4 @@
                         (67 :foreground "#0098dd"))
    ))
 
-;;; zaiste-theme.el ends here
+;;; era-theme.el ends here

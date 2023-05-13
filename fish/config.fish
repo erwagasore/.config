@@ -8,13 +8,13 @@ alias python "python3.11"
 alias pip "pip3.11"
 
 # add doom binaries
-fish_add_path /Users/er/.config/emacs/bin
+fish_add_path ~/.config/emacs/bin
 
 # add rust binaries
-fish_add_path /Users/er/.cargo/bin
+fish_add_path ~/.cargo/bin
 
 # add python user-base binaries
-fish_add_path /Users/er/Library/Python/3.11/bin
+# fish_add_path /Users/er/Library/Python/3.11/bin
 
 # add grep from homebrew
 fish_add_path /opt/homebrew/opt/grep/libexec/gnubin

@@ -40,15 +40,15 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'zaiste t))
-    ('dark (load-theme 'doom-ayu-dark t))))
+    ('light (load-theme 'era t))
+    ('dark (load-theme 'ijima t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . zaiste)
-          (dark . doom-ayu-dark)))
+        '((light . era)
+          (dark . ijima)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
@@ -56,6 +56,8 @@
 (add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
 (after! doom-theme
+  (doom-themes-org-config)
+  (doom-themes-visual-bell-config)
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 #+end_src
@@ -130,11 +132,7 @@
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2)
 #+end_src
-** Rust
-#+begin_src emacs-lisp
-;; (after! lsp-rust
-;;   (setq lsp-rust-server 'rust-analyzer))
-#+end_src
+
 * Clients Configurations
 ** LSP
 #+begin_src emacs-lisp
