@@ -116,6 +116,7 @@
   (set-face-attribute 'org-level-6 nil :weight 'normal)
   (set-face-attribute 'org-document-title nil :foreground "SlateGray1" :background nil :height 1.75 :weight 'bold))
 #+end_src
+
 ** Web Mode Configurations
 #+begin_src emacs-lisp
 (setq indent-tabs-mode nil
