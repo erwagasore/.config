@@ -19,6 +19,9 @@
 ;; Increase amount of data read from process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+;; Hide menu-bar
+(menu-bar-mode -1)
+
 ;; autosave
 (auto-save-visited-mode t)
 (setq auto-save-timeout 1)
@@ -97,25 +100,22 @@
 ** Org Mode
 #+begin_src emacs-lisp
 (after! org
-  (setq org-roam-directory "~/Documents/vault"
-        org-roam-dailies-directory "journals/"
+  (setq org-roam-dailies-directory "journals/"
+        org-roam-dailies-capture-templates
+        '(("d" "default"
+           entry (file "~/Documents/vault/templates/daily.org")
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+           :unnarrowed t))
+        ;; roam directory and templates
+        org-roam-directory "~/Documents/vault"
         org-roam-capture-templates
-        '(("d" "default" plain
-           "%?" :target
-           (file+head "pages/${slug}.org" "#+title: ${title}\n")
+        '(("d" "default"
+           plain "%?"
+           :target (file+head "pages/${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)))
-  ;; customize org face attributes
-  (set-face-attribute 'org-link nil :weight 'normal :background nil)
-  (set-face-attribute 'org-code nil :foreground "#a9a1e1" :background nil)
-  (set-face-attribute 'org-date nil :foreground "#5B6268" :background nil)
-  (set-face-attribute 'org-level-1 nil :foreground "steelblue2" :background nil :height 1.2 :weight 'normal)
-  (set-face-attribute 'org-level-2 nil :foreground "slategray2" :background nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'org-level-3 nil :foreground "SkyBlue2" :background nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'org-level-4 nil :foreground "DodgerBlue2" :background nil :height 1.0 :weight 'normal)
-  (set-face-attribute 'org-level-5 nil :weight 'normal)
-  (set-face-attribute 'org-level-6 nil :weight 'normal)
-  (set-face-attribute 'org-document-title nil :foreground "SlateGray1" :background nil :height 1.75 :weight 'bold))
 #+end_src
+
+#+RESULTS:
 
 ** Web Mode Configurations
 #+begin_src emacs-lisp
