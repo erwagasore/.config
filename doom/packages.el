@@ -4,10 +4,10 @@
 ;; enable toggle predefined light and dark themes
 (package! heaven-and-hell)
 
-;; enable GitHub Copilot
-(package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+;; Enable eglot-java and gradle
+(package! eglot-java)
+(package! gradle-mode)
 
-;; chatgpt for emacs
-(package! chatgpt-shell
-  :recipe (:host github :repo "xenodium/chatgpt-shell"))
+;; Enable Copilot
+(package! copilot
+  :recipe (:host github :repo "jart/emacs-copilot" :files ("*.el")))

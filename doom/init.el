@@ -7,7 +7,7 @@
        doom
        (emoji +ascii +unicode +github)
        hl-todo
-       (ligatures +extra +pragmata-pro)
+       (ligatures +extra)
        modeline
        nav-flash
        ophints
@@ -43,7 +43,7 @@
        ein
        (eval +overlay)
        lookup
-       (lsp +peek)
+       (lsp +eglot +peek)
        magit
        terraform
        tree-sitter
@@ -56,6 +56,7 @@
        :lang
        emacs-lisp
        json
+       (java +lsp +tree-sitter)
        javascript
        markdown
        (org +contacts +dragndrop +pomodoro +pretty +roam2)

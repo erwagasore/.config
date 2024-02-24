@@ -5,7 +5,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets
 (setq user-full-name "Eugene Rwagasore"
-      user-mail-address "rwagasore@gmail.com")
+      user-mail-address "mail@rwagasore.com")
 #+end_src
 
 * Sane Defaults
@@ -21,6 +21,9 @@
 
 ;; Hide menu-bar
 (menu-bar-mode -1)
+
+;; Set Scratch to org-mode as default
+(setq initial-major-mode 'org-mode)
 
 ;; autosave
 (auto-save-visited-mode t)
@@ -94,10 +97,24 @@
  x-stretch-cursor t)
 
 (blink-cursor-mode t)
+
+;; Disable fringe-mode on xwidget
+(defun no-fringes-config ()
+  "Used in `window-configuration-change-hook' to configure fringes"
+  (set-window-fringes nil 0 0))
+
+(defun xwidget-webkit-no-fringes-hook ()
+  "Custom `xwidget-webkit-mode' behaviours."
+  (setq header-line-format nil)
+  (add-hook 'window-configuration-change-hook
+            'no-fringes-config nil :local))
+
+(add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
+
 #+end_src
 
 * Languages Configurations
-** Org Mode
+** Org Mode Configurations
 #+begin_src emacs-lisp
 (after! org
   (setq org-roam-dailies-directory "journals/"
@@ -112,11 +129,12 @@
         '(("d" "default"
            plain "%?"
            :target (file+head "pages/${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)))
+           :unnarrowed t))))
 #+end_src
-
-#+RESULTS:
-
+** Java Mode Configurations
+#+begin_src emacs-lisp
+(add-hook 'java-mode-hook 'eglot-java-mode)
+#+end_src
 ** Web Mode Configurations
 #+begin_src emacs-lisp
 (setq indent-tabs-mode nil
@@ -152,21 +170,6 @@
         company-minimum-prefix-length 1)
   (setq company-show-numbers t))
 #+end_src
-** Copilot
-#+begin_src emacs-lisp
-;; accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
-         ("C-<tab>" . 'copilot-accept-completion-by-word)
-         :map copilot-completion-map
-         ("<tab>" . 'copilot-accept-completion)
-         ("TAB" . 'copilot-accept-completion)))
-#+end_src
-** ChatGPT
-#+begin_src emacs-lisp
-(use-package! chatgpt-shell)
-#+end_src
 ** Magit
 #+begin_src emacs-lisp
 ;; Remove `--literal-pathspecs` argument which was causing `pre-commit` to fail
@@ -177,4 +180,13 @@
 ;;   (push
 ;;    '("er.github.com" "api.github.com" "github.com" forge-github-repository)
 ;;    forge-Balist))
+#+end_src
+** SQL
+#+begin_src emacs-lisp
+(setq sql-connection-alist
+      '((pindo (sql-product 'postgres)
+                  (sql-port 25060)
+                  (sql-server "db-postgresql-lon1-fork-do-user-3350734-0.b.db.ondigitalocean.com")
+                  (sql-user "pindo")
+                  (sql-database "pindo"))))
 #+end_src
