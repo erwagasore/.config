@@ -29,7 +29,12 @@ source ~/.asdf/plugins/java/set-java-home.fish
 
 # alias and abbreviations
 abbr d docker
+abbr dpa 'docker ps'
+abbr dpa 'docker ps -a'
 abbr di 'docker images'
 abbr dc 'docker compose'
+abbr dcp 'docker compose ps'
+abbr dcpa 'docker compose ps -a'
+abbr dcd 'docker compose down'
 # abbr p podman
 # alias kamal='docker run --rm -it -v $PWD:/workdir -v $SSH_AUTH_SOCK:/ssh-agent -v /var/run/docker.sock:/var/run/docker.sock -e SSH_AUTH_SOCK=/ssh-agent ghcr.io/basecamp/kamal:latest'

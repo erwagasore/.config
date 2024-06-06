@@ -35,9 +35,10 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 16)
-      doom-big-font (font-spec :family "PragmataPro Liga" :size 27)
-      default-text-properties '(line-spacing 0.125 line-height 1.125))
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 14)
+       doom-variable-pitch-font (font-spec :family "PragmataPro Liga" :size 16)
+       doom-big-font (font-spec :family "PragmataPro Liga" :size 24)
+       default-text-properties '(line-spacing 0.125 line-height 1.125 style "Retina"))
 #+end_src
 
 * Theme Configurations
@@ -67,15 +68,14 @@
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 #+end_src
-
 * UI Configurations
 #+begin_src emacs-lisp
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
 
 ;transparent adjustment
- (set-frame-parameter (selected-frame) 'alpha '(92 . 80))
- (add-to-list 'default-frame-alist '(alpha . (92 . 80)))
+ (set-frame-parameter (selected-frame) 'alpha '(96 . 88))
+ (add-to-list 'default-frame-alist '(alpha . (96 . 88)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
