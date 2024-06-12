@@ -35,8 +35,7 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 14)
-       doom-variable-pitch-font (font-spec :family "PragmataPro Liga" :size 16)
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 15)
        doom-big-font (font-spec :family "PragmataPro Liga" :size 24)
        default-text-properties '(line-spacing 0.125 line-height 1.125 style "Retina"))
 #+end_src
@@ -47,15 +46,15 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'era t))
-    ('dark (load-theme 'ijima t))))
+    ('light (load-theme 'doom-ayu-light t))
+    ('dark (load-theme 'doom-ayu-dark t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . era)
-          (dark . ijima)))
+        '((light . doom-ayu-light)
+          (dark . doom-ayu-dark)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
@@ -180,13 +179,4 @@
 ;;   (push
 ;;    '("er.github.com" "api.github.com" "github.com" forge-github-repository)
 ;;    forge-Balist))
-#+end_src
-** SQL
-#+begin_src emacs-lisp
-(setq sql-connection-alist
-      '((pindo (sql-product 'postgres)
-                  (sql-port 25060)
-                  (sql-server "db-postgresql-lon1-fork-do-user-3350734-0.b.db.ondigitalocean.com")
-                  (sql-user "pindo")
-                  (sql-database "pindo"))))
 #+end_src
