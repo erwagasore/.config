@@ -8,6 +8,6 @@
 (package! eglot-java)
 (package! gradle-mode)
 
-;; Enable Copilot
-(package! copilot
-  :recipe (:host github :repo "jart/emacs-copilot" :files ("*.el")))
+;; Enable gptel
+(package! gptel)
+(package! ai-org-chat :recipe (:host github :repo "ultronozm/ai-org-chat.el"))

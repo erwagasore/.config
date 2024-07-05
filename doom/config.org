@@ -35,7 +35,7 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 15)
+(setq doom-font (font-spec :family "PragmataPro Liga" :size 16)
        doom-big-font (font-spec :family "PragmataPro Liga" :size 24)
        default-text-properties '(line-spacing 0.125 line-height 1.125 style "Retina"))
 #+end_src
@@ -46,15 +46,15 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'doom-ayu-light t))
-    ('dark (load-theme 'doom-ayu-dark t))))
+    ('light (load-theme 'era t))
+    ('dark (load-theme 'ijima t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
-        '((light . doom-ayu-light)
-          (dark . doom-ayu-dark)))
+        '((light . era)
+          (dark . ijima)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
@@ -174,9 +174,17 @@
 ;; Remove `--literal-pathspecs` argument which was causing `pre-commit` to fail
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
-
-;; (after!
-;;   (push
-;;    '("er.github.com" "api.github.com" "github.com" forge-github-repository)
-;;    forge-Balist))
 #+end_src
+
+** GPTEl
+#+begin_src emacs-lisp
+(after! gptel
+  (setq gptel-model "dolphin-llama3:latest"
+        gptel-default-mode `org-mode
+        gptel-backend (gptel-make-ollama "Ollama"
+                        :host "localhost:11434"
+                        :stream t
+                        :models '("dolphin-llama3:latest"))))
+#+end_src
+
+#+RESULTS:
