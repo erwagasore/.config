@@ -35,8 +35,8 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataPro Liga" :size 16)
-       doom-big-font (font-spec :family "PragmataPro Liga" :size 24)
+(setq doom-font (font-spec :family "Iosevka SS08" :weight  :size 15)
+       doom-big-font (font-spec :family "Iosevka SS08" :weight 'Light :size 24)
        default-text-properties '(line-spacing 0.125 line-height 1.125 style "Retina"))
 #+end_src
 
@@ -109,7 +109,6 @@
             'no-fringes-config nil :local))
 
 (add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
-
 #+end_src
 
 * Languages Configurations

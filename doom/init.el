@@ -15,6 +15,7 @@
        (vc-gutter +pretty)
        (window-select +switch-window)
        workspaces
+       indent-guides
 
        :editor
        file-templates
