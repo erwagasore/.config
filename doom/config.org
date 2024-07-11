@@ -35,9 +35,9 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka SS08" :weight  :size 15)
-       doom-big-font (font-spec :family "Iosevka SS08" :weight 'Light :size 24)
-       default-text-properties '(line-spacing 0.125 line-height 1.125 style "Retina"))
+(setq doom-font (font-spec :family "Iosevka SS08" :weight 'Regular  :size 15)
+       doom-big-font (font-spec :family "Iosevka SS08" :weight 'Regular :size 24)
+       default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
 
 * Theme Configurations
@@ -187,3 +187,12 @@
 #+end_src
 
 #+RESULTS:
+
+** Indent Guides
+#+begin_src emacs-lisp
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-delay 0
+        highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'stack
+        highlight-indent-guides-suppress-auto-error t))
+#+end_src
