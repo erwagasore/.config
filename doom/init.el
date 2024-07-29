@@ -58,7 +58,7 @@
        emacs-lisp
        json
        (java +lsp +tree-sitter)
-       javascript
+       (javascript +lsp +tree-sitter)
        markdown
        (org +contacts +dragndrop +pomodoro +pretty +roam2)
        (python +pyenv +lsp +pyright +tree-sitter)

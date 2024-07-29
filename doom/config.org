@@ -22,6 +22,10 @@
 ;; Hide menu-bar
 (menu-bar-mode -1)
 
+;;
+(setq shell-file-name  (executable-find "fish"))
+(setq-default vterm-shell (executable-find "fish"))
+
 ;; Set Scratch to org-mode as default
 (setq initial-major-mode 'org-mode)
 
@@ -178,15 +182,13 @@
 ** GPTEl
 #+begin_src emacs-lisp
 (after! gptel
-  (setq gptel-model "dolphin-llama3:latest"
+  (setq gptel-model "llama3.1:latest"
         gptel-default-mode `org-mode
         gptel-backend (gptel-make-ollama "Ollama"
                         :host "localhost:11434"
                         :stream t
-                        :models '("dolphin-llama3:latest"))))
+                        :models '("llama3.1:latest"))))
 #+end_src
-
-#+RESULTS:
 
 ** Indent Guides
 #+begin_src emacs-lisp
