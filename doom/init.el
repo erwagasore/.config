@@ -44,9 +44,8 @@
        ein
        (eval +overlay)
        lookup
-       (lsp +eglot +peek)
+       (lsp +eglot)
        magit
-       terraform
        tree-sitter
        upload
 
@@ -57,10 +56,9 @@
        :lang
        emacs-lisp
        json
-       (java +lsp +tree-sitter)
        (javascript +lsp +tree-sitter)
        markdown
-       (org +contacts +dragndrop +pomodoro +pretty +roam2)
+       (org +pomodoro +pretty)
        (python +pyenv +lsp +pyright +tree-sitter)
        rest
        (rust +lsp +tree-sitter)

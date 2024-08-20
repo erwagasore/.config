@@ -77,8 +77,8 @@
 (setq confirm-kill-emacs nil)
 
 ;transparent adjustment
- (set-frame-parameter (selected-frame) 'alpha '(96 . 88))
- (add-to-list 'default-frame-alist '(alpha . (96 . 88)))
+ (set-frame-parameter (selected-frame) 'alpha '(100 . 92))
+ (add-to-list 'default-frame-alist '(alpha . (100 . 92)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -180,6 +180,7 @@
 #+end_src
 
 ** GPTEl
+
 #+begin_src emacs-lisp
 (after! gptel
   (setq gptel-model "llama3.1:latest"
@@ -188,6 +189,8 @@
                         :host "localhost:11434"
                         :stream t
                         :models '("llama3.1:latest"))))
+
+(map! "C-c o x" #'gptel)
 #+end_src
 
 ** Indent Guides
