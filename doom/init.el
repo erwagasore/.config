@@ -38,7 +38,6 @@
        (syntax +childframe)
 
        :tools
-       (debugger +lsp)
        direnv
        docker
        ein

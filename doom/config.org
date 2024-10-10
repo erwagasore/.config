@@ -153,7 +153,6 @@
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2)
 #+end_src
-
 * Clients Configurations
 ** LSP
 #+begin_src emacs-lisp
@@ -162,6 +161,17 @@
         lsp-idle-delay 0.5
         lsp-enable-file-watchers nil
         lsp-eslint-auto-fix-on-save t))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((js-mode typescript-mode typescript-tsx-mode) . (eglot-deno "deno" "lsp")))
+
+  (defclass eglot-deno (eglot-lsp-server) ()
+    :documentation "A custom class for deno lsp.")
+
+  (cl-defmethod eglot-initialization-options ((server eglot-deno))
+    "Passes through required deno initialization options"
+    (list :enable t :lint t)))
 #+end_src
 ** Company
 #+begin_src emacs-lisp
@@ -188,7 +198,7 @@
         gptel-backend (gptel-make-ollama "Ollama"
                         :host "localhost:11434"
                         :stream t
-                        :models '("llama3.1:latest"))))
+                        :models '("llama3.2:latest"))))
 
 (map! "C-c o x" #'gptel)
 #+end_src

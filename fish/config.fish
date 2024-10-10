@@ -2,6 +2,7 @@ set -x EDITOR emacs
 set -x VISUAL emacs
 set -x TERM xterm-256color
 set -x STARSHIP_CONFIG ~/.config/fish/starship.toml
+set -gx SSH_AUTH_SOCK ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock ssh-add -l
 
 # Define alias for python 3.11 to python
 # alias python "python3.11"
@@ -20,6 +21,7 @@ fish_add_path /opt/homebrew/opt/grep/libexec/gnubin
 # add third party binaries
 fish_add_path ~/.config/emacs/bin
 fish_add_path ~/.cargo/bin
+fish_add_path ~/go/bin
 
 # initialize starship
 starship init fish | source
