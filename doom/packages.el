@@ -4,10 +4,12 @@
 ;; Enable toggle predefined light and dark themes
 (package! heaven-and-hell)
 
+;; Enable org-superstar
+(package! org-superstar)
+
 ;; Enable eglot-java and gradle
 (package! eglot-java)
 (package! gradle-mode)
 
-;; Enable gptel
-(package! gptel)
-(package! ai-org-chat :recipe (:host github :repo "ultronozm/ai-org-chat.el"))
+;; Enable chatgpt-shell
+(package! chatgpt-shell)

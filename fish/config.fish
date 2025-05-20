@@ -17,7 +17,8 @@ fish_add_path /opt/homebrew/opt/ruby/bin
 fish_add_path /opt/homebrew/lib/ruby/gems/3.2.0/bin
 # add grep from homebrew
 fish_add_path /opt/homebrew/opt/grep/libexec/gnubin
-
+#add npm bin directory
+set -gx PATH $PATH (npm bin -g)
 # add third party binaries
 fish_add_path ~/.config/emacs/bin
 fish_add_path ~/.cargo/bin
@@ -38,5 +39,3 @@ abbr dc 'docker compose'
 abbr dcp 'docker compose ps'
 abbr dcpa 'docker compose ps -a'
 abbr dcd 'docker compose down'
-# abbr p podman
-# alias kamal='docker run --rm -it -v $PWD:/workdir -v $SSH_AUTH_SOCK:/ssh-agent -v /var/run/docker.sock:/var/run/docker.sock -e SSH_AUTH_SOCK=/ssh-agent ghcr.io/basecamp/kamal:latest'

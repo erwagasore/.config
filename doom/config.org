@@ -22,9 +22,13 @@
 ;; Hide menu-bar
 (menu-bar-mode -1)
 
-;;
-(setq shell-file-name  (executable-find "fish"))
-(setq-default vterm-shell (executable-find "fish"))
+;; Remove gaps between your emacs frames and other windows
+(setq frame-resize-pixelwise t)
+
+;; Allow internal emacs to use posix shell and vterm to user fish
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell "/opt/homebrew/bin/fish")
+(setq-default explicit-shell-file-name "/opt/homebrew/bin/fish")
 
 ;; Set Scratch to org-mode as default
 (setq initial-major-mode 'org-mode)
@@ -35,15 +39,22 @@
 (setq auto-save-interval 50)
 (setq auto-save-visited-file-name t)
 (setq default-directory "~")
+
+;; Improve the modeline and Icons
+(setq nerd-icons-scale-factor 0.8)
+(setq doom-modeline-height 32)
+
+;; Remap the keybinding to open xwidget browser
+(map! :leader
+      :desc "Open XWidget Browser URL" "o b" #'xwidget-webkit-browse-url)
 #+end_src
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka SS08" :weight 'Regular  :size 15)
-       doom-big-font (font-spec :family "Iosevka SS08" :weight 'Regular :size 24)
+(setq doom-font (font-spec :family "PragmataPro" :style"Regular"  :size 15)
+       doom-big-font (font-spec :family "PragmataPro" :style "Regular" :size 24)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
-
 * Theme Configurations
 #+begin_src emacs-lisp
 (defun my/apply-theme (appearance)
@@ -114,24 +125,33 @@
 
 (add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
 #+end_src
-
 * Languages Configurations
 ** Org Mode Configurations
 #+begin_src emacs-lisp
 (after! org
-  (setq org-roam-dailies-directory "journals/"
-        org-roam-dailies-capture-templates
-        '(("d" "default"
-           entry (file "~/Documents/vault/templates/daily.org")
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-           :unnarrowed t))
-        ;; roam directory and templates
-        org-roam-directory "~/Documents/vault"
-        org-roam-capture-templates
-        '(("d" "default"
-           plain "%?"
-           :target (file+head "pages/${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t))))
+
+  (use-package! org-superstar
+    :hook (org-mode . org-superstar-mode)
+    :config
+    (setq org-superstar-headline-bullets-list '("⁖")
+          org-superstar-item-bullet-alist '((?- . "•") (?+ . "•") (?* . "•"))
+          org-hide-leading-stars t
+          org-superstar-leading-bullet " "))
+
+  (setq org-ellipsis " ... "
+        org-todo-keyword-faces
+        '(("NOW" :foreground "#7c7c75" :weight normal :underline t)
+          ("LATER" :foreground "#9f7efe" :weight normal :underline t)
+          ("NEXT" :foreground "#0098dd" :weight normal :underline t)
+          ("DONE" :foreground "#50a14f" :weight normal :underline t)
+          ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))
+        org-priority-faces '((65 :foreground "#e45649")
+                             (66 :foreground "#da8548")
+                             (67 :foreground "#0098dd"))
+        org-todo-keywords
+        '((sequence "LATER(l)" "NOW(n)" "NEXT(N)" "|" "DONE(d)" "CANCELLED(c)")
+          (sequence "[ ](t)" "[-](s)" "[?](w)" "|" "[X](x)"))))
+
 #+end_src
 ** Java Mode Configurations
 #+begin_src emacs-lisp
@@ -189,18 +209,13 @@
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
 
-** GPTEl
-
+** ChatGPT-Shell
 #+begin_src emacs-lisp
-(after! gptel
-  (setq gptel-model "llama3.1:latest"
-        gptel-default-mode `org-mode
-        gptel-backend (gptel-make-ollama "Ollama"
-                        :host "localhost:11434"
-                        :stream t
-                        :models '("llama3.2:latest"))))
+(after! chatgpt-shell
+  (setq chatgpt-shell-openai-key (auth-source-pick-first-password :host "openai" :user "rwagasore")
+        chatgpt-shell-streaming t))
 
-(map! "C-c o x" #'gptel)
+(map! "C-c o x" #'chatgpt-shell-prompt-compose)
 #+end_src
 
 ** Indent Guides

@@ -20,6 +20,7 @@
        :editor
        file-templates
        fold
+       word-wrap
        (format +onsave)
        multiple-cursors
        snippets
@@ -57,12 +58,8 @@
        json
        (javascript +lsp +tree-sitter)
        markdown
-       (org +pomodoro +pretty)
-       (python +pyenv +lsp +pyright +tree-sitter)
-       rest
+       (org)
        (rust +lsp +tree-sitter)
-       (sh +lsp +tree-sitter +fish)
-       (swift +lsp +tree-sitter)
        (web +lsp +tree-sitter)
        (yaml +lsp +tree-sitter)
 
