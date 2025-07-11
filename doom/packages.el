@@ -12,5 +12,9 @@
 (package! gradle-mode)
 
 ;; Enable claude-code.el and its companions
+;; Terminal emulator to use specific for Claude Code
+(package! eat)
+
+;; Claude Code package
 (package! claude-code
   :recipe (:host github :repo "stevemolitor/claude-code.el"))

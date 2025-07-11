@@ -1,0 +1,1 @@
+- Never add claude code related comments to my commits

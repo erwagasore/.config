@@ -240,13 +240,7 @@ Claude Code terminal integration.
         :desc "Claude Code Menu" "SPC" #'claude-code-transient)
 
   ;; Terminal backend configuration
-  (setq claude-code-terminal-backend 'vterm)
-
-  ;; Set cursor to bar specifically for Claude Code buffers
-(add-hook 'claude-code-start-hook
-          (lambda ()
-            (when (eq claude-code-terminal-backend 'vterm)
-              (setq-local cursor-type 'bar))))
+  (setq claude-code-terminal-backend 'eat)
 
   ;; Display configuration
   (add-to-list 'display-buffer-alist
@@ -256,7 +250,6 @@ Claude Code terminal integration.
                  (window-width . 96)))
 
   ;; Terminal settings
-  (setq claude-code-vterm-read-only-mode-cursor-type '(bar nil nil))
   (setq claude-code-eat-read-only-mode-cursor-type '(bar nil nil)
         eat-term-scrollback-size 500000))  ; Increase to 500k characters
 #+end_src
