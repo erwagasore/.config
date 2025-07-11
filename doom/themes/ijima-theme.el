@@ -52,7 +52,7 @@
    ;; Additional colors
    (bg-region     '("#163764" nil       nil            ))
 
-   (highlight      bg-region)
+   (highlight      (doom-lighten bg-region 0.4))
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        cyan)
@@ -81,7 +81,10 @@
    (modeline-bg base1)
    (modeline-bg-l base2)
    (modeline-bg-inactive (doom-darken bg 0.1))
-   (modeline-bg-inactive-l `(,(doom-darken (car bg-alt) 0.05) ,@(cdr base1))))
+   (modeline-bg-inactive-l `(,(doom-darken (car bg-alt) 0.05) ,@(cdr base1)))
+   
+   ;; Cursor
+   (cursor base8))
 
   ((font-lock-comment-face :foreground comments :weight 'bold)
    (font-lock-doc-face :inherit 'font-lock-comment-face :foreground doc-comments :weight 'regular)
