@@ -92,8 +92,8 @@
 (setq confirm-kill-emacs nil)
 
 ;transparent adjustment
- (set-frame-parameter (selected-frame) 'alpha '(100 . 92))
- (add-to-list 'default-frame-alist '(alpha . (100 . 92)))
+ (set-frame-parameter (selected-frame) 'alpha '(100 . 96))
+ (add-to-list 'default-frame-alist '(alpha . (100 . 96)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -242,20 +242,21 @@ Claude Code terminal integration.
   ;; Terminal backend configuration
   (setq claude-code-terminal-backend 'vterm)
 
+  ;; Set cursor to bar specifically for Claude Code buffers
+(add-hook 'claude-code-start-hook
+          (lambda ()
+            (when (eq claude-code-terminal-backend 'vterm)
+              (setq-local cursor-type 'bar))))
+
   ;; Display configuration
   (add-to-list 'display-buffer-alist
                '("^\\*claude"
                  (display-buffer-in-side-window)
                  (side . right)
-                 (window-width . 90)))
-
-  ;; Visual adjustments
-  (add-hook 'claude-code-start-hook
-            (lambda ()
-              ;; Reduce line spacing to fix vertical bar gaps
-              (setq-local line-spacing 0.1)))
+                 (window-width . 96)))
 
   ;; Terminal settings
+  (setq claude-code-vterm-read-only-mode-cursor-type '(bar nil nil))
   (setq claude-code-eat-read-only-mode-cursor-type '(bar nil nil)
         eat-term-scrollback-size 500000))  ; Increase to 500k characters
 #+end_src
