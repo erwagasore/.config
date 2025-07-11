@@ -51,8 +51,8 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "PragmataPro" :style"Regular"  :size 15)
-       doom-big-font (font-spec :family "PragmataPro" :style "Regular" :size 24)
+(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
+       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 21)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
 * Theme Configurations
@@ -65,6 +65,10 @@
     ('dark (load-theme 'ijima t))))
 
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+
+;; Apply theme on startup based on current system appearance
+(when (boundp 'ns-system-appearance)
+  (my/apply-theme ns-system-appearance))
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
@@ -225,4 +229,33 @@
         highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'stack
         highlight-indent-guides-suppress-auto-error t))
+#+end_src
+
+** Claude Code
+Claude Code terminal integration.
+#+begin_src emacs-lisp
+(use-package! claude-code
+  :config
+  (map! :leader
+        :desc "Claude Code Menu" "SPC" #'claude-code-transient)
+
+  ;; Terminal backend configuration
+  (setq claude-code-terminal-backend 'vterm)
+
+  ;; Display configuration
+  (add-to-list 'display-buffer-alist
+               '("^\\*claude"
+                 (display-buffer-in-side-window)
+                 (side . right)
+                 (window-width . 90)))
+
+  ;; Visual adjustments
+  (add-hook 'claude-code-start-hook
+            (lambda ()
+              ;; Reduce line spacing to fix vertical bar gaps
+              (setq-local line-spacing 0.1)))
+
+  ;; Terminal settings
+  (setq claude-code-eat-read-only-mode-cursor-type '(bar nil nil)
+        eat-term-scrollback-size 500000))  ; Increase to 500k characters
 #+end_src

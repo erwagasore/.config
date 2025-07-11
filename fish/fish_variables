@@ -1,11 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export SSH_AUTH_SOCK:/Users/erwagasore/Library/Group\x20Containers/2BUA8C4S2C\x2ecom\x2e1password/t/agent\x2esock\x1essh\x2dadd\x1e\x2dl
 SETUVAR __fish_initialized:3400
-SETUVAR _fisher_danhper_2F_fish_2D_ssh_2D_agent_files:\x7e/\x2econfig/fish/functions/__ssh_agent_is_started\x2efish\x1e\x7e/\x2econfig/fish/functions/__ssh_agent_start\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/fish\x2dssh\x2dagent\x2efish
-SETUVAR _fisher_plugins:danhper/fish\x2dssh\x2dagent
 SETUVAR _fisher_upgraded_to_4_4:\x1d
-SETUVAR fish_color_autosuggestion:555\x1ebrblack
+SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:blue
 SETUVAR fish_color_comment:red
@@ -29,8 +26,8 @@ SETUVAR fish_color_user:brgreen
 SETUVAR fish_color_valid_path:\x2d\x2dunderline
 SETUVAR fish_key_bindings:fish_default_key_bindings
 SETUVAR fish_pager_color_completion:normal
-SETUVAR fish_pager_color_description:B3A06D\x1eyellow\x1e\x2di
+SETUVAR fish_pager_color_description:yellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/Users/erwagasore/go/bin\x1e/Users/erwagasore/\x2ecargo/bin\x1e/Users/erwagasore/\x2econfig/emacs/bin\x1e/opt/homebrew/opt/openjdk/bin\x1e/opt/homebrew/lib/ruby/gems/3\x2e2\x2e0/bin\x1e/opt/homebrew/opt/ruby/bin\x1e/Users/rw\x2dg\x2ds\x2dr\x2d/\x2eorbstack/bin\x1e/Users/rw\x2dg\x2ds\x2dr\x2d/\x2ecargo/bin\x1e/Users/rw\x2dg\x2ds\x2dr\x2d/\x2econfig/emacs/bin\x1e/opt/homebrew/opt/grep/libexec/gnubin\x1e/Users/er/\x2eemacs\x2ed/bin\x1e/Users/er/\x2econfig/emacs/bin\x1e/Users/er/\x2ecargo/bin\x1e/Users/er/Library/Python/3\x2e11/bin\x1e/opt/homebrew/bin
+SETUVAR fish_user_paths:/Users/erwagasore/\x2eclaude/local\x1e/Users/erwagasore/\x2econfig/emacs/bin\x1e/opt/homebrew/opt/grep/libexec/gnubin\x1e/opt/homebrew/lib/ruby/gems/3\x2e2\x2e0/bin\x1e/opt/homebrew/opt/ruby/bin\x1e/Users/erwagasore/go/bin\x1e/Users/erwagasore/\x2ecargo/bin\x1e/opt/homebrew/bin

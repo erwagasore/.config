@@ -11,5 +11,6 @@
 (package! eglot-java)
 (package! gradle-mode)
 
-;; Enable chatgpt-shell
-(package! chatgpt-shell)
+;; Enable claude-code.el and its companions
+(package! claude-code
+  :recipe (:host github :repo "stevemolitor/claude-code.el"))

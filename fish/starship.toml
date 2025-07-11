@@ -1,6 +1,9 @@
+# Inserts a blank line between shell prompts
+add_newline = true
+
 command_timeout = 1000
 
-[character]
+
+[character] # The name of the module we are configuring is 'character'
 success_symbol = '[🡢 ](green)'
 error_symbol = '[🡢 ](red)'
-
