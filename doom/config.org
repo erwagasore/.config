@@ -41,7 +41,7 @@
 (setq default-directory "~")
 
 ;; Improve the modeline and Icons
-(setq nerd-icons-scale-factor 0.8)
+(setq nerd-icons-scale-factor 0.86)
 (setq doom-modeline-height 32)
 
 ;; Remap the keybinding to open xwidget browser
@@ -51,8 +51,8 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
-       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 21)
+(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 15)
+       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 22)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
 * Theme Configurations
@@ -213,15 +213,6 @@
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
 
-** ChatGPT-Shell
-#+begin_src emacs-lisp
-(after! chatgpt-shell
-  (setq chatgpt-shell-openai-key (auth-source-pick-first-password :host "openai" :user "rwagasore")
-        chatgpt-shell-streaming t))
-
-(map! "C-c o x" #'chatgpt-shell-prompt-compose)
-#+end_src
-
 ** Indent Guides
 #+begin_src emacs-lisp
 (after! highlight-indent-guides
@@ -240,16 +231,13 @@ Claude Code terminal integration.
         :desc "Claude Code Menu" "SPC" #'claude-code-transient)
 
   ;; Terminal backend configuration
-  (setq claude-code-terminal-backend 'eat)
+  (setq claude-code-terminal-backend 'eat
+        eat-term-scrollback-size 500000)
 
   ;; Display configuration
   (add-to-list 'display-buffer-alist
                '("^\\*claude"
                  (display-buffer-in-side-window)
                  (side . right)
-                 (window-width . 96)))
-
-  ;; Terminal settings
-  (setq claude-code-eat-read-only-mode-cursor-type '(bar nil nil)
-        eat-term-scrollback-size 500000))  ; Increase to 500k characters
+                 (window-width . 96))))
 #+end_src
