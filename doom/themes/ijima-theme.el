@@ -52,11 +52,11 @@
    ;; Additional colors
    (bg-region     '("#163764" nil       nil            ))
 
-   (highlight      (doom-lighten bg-region 0.4))
+   (highlight      (doom-lighten bg-region 0.6))
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        cyan)
-   (comments       grey)
+   (comments       (doom-lighten grey 0.35))
    (doc-comments   (doom-lighten comments 0.15))
    (constants      yellow)
    (functions      blue)
@@ -84,12 +84,12 @@
    (modeline-bg-inactive-l `(,(doom-darken (car bg-alt) 0.05) ,@(cdr base1)))
    
    ;; Cursor
-   (cursor base8))
+   (cursor (doom-lighten yellow 0.2)))
 
   ((font-lock-comment-face :foreground comments :weight 'bold)
    (font-lock-doc-face :inherit 'font-lock-comment-face :foreground doc-comments :weight 'regular)
 
-   ((line-number &override) :foreground base2)
+   ((line-number &override) :foreground (doom-lighten base4 0.15))
    ((line-number-current-line &override) :foreground fg-alt)
 
    (doom-modeline-bar :background highlight)
@@ -101,8 +101,23 @@
    (mode-line-emphasis :foreground highlight)
 
    (magit-blame-heading :foreground orange :background bg-alt)
-   (magit-diff-removed :foreground (doom-darken red 0.2) :background (doom-blend red bg 0.1))
-   (magit-diff-removed-highlight :foreground red :background (doom-blend red bg 0.2) :bold bold)
+   (magit-diff-added :foreground (doom-lighten green 0.2) :background (doom-blend green bg 0.2))
+   (magit-diff-added-highlight :foreground green :background (doom-blend green bg 0.3) :bold bold)
+   (magit-diff-removed :foreground (doom-lighten red 0.2) :background (doom-blend red bg 0.2))
+   (magit-diff-removed-highlight :foreground red :background (doom-blend red bg 0.3) :bold bold)
+   (magit-diff-context :foreground (doom-darken fg 0.3))
+   (magit-diff-context-highlight :foreground fg :background (doom-lighten bg 0.05))
+   (magit-diff-hunk-heading :foreground fg :background (doom-lighten bg 0.1) :bold bold)
+   (magit-diff-hunk-heading-highlight :foreground fg :background (doom-lighten bg 0.15) :bold bold)
+   (magit-diff-file-heading :foreground blue :bold bold)
+   (magit-diff-file-heading-highlight :foreground blue :background (doom-lighten bg 0.05) :bold bold)
+   
+   (diff-added :foreground green :background (doom-blend green bg 0.2))
+   (diff-removed :foreground red :background (doom-blend red bg 0.2))
+   (diff-changed :foreground orange :background (doom-blend orange bg 0.2))
+   (diff-header :foreground blue :background (doom-lighten bg 0.05) :bold bold)
+   (diff-file-header :inherit 'diff-header)
+   (diff-hunk-header :foreground fg :background (doom-lighten bg 0.1))
 
    (css-proprietary-property :foreground orange)
    (css-property             :foreground green)
@@ -113,10 +128,10 @@
    (markdown-code-face       :background base1)
    (mmm-default-submode-face :background base1)
 
-   (ediff-current-diff-A        :foreground red   :background (doom-lighten red 0.8))
-   (ediff-current-diff-B        :foreground green :background (doom-lighten green 0.8))
-   (ediff-current-diff-C        :foreground blue  :background (doom-lighten blue 0.8))
-   (ediff-current-diff-Ancestor :foreground teal  :background (doom-lighten teal 0.8))
+   (ediff-current-diff-A        :foreground red   :background (doom-blend red bg 0.25))
+   (ediff-current-diff-B        :foreground green :background (doom-blend green bg 0.25))
+   (ediff-current-diff-C        :foreground blue  :background (doom-blend blue bg 0.25))
+   (ediff-current-diff-Ancestor :foreground teal  :background (doom-blend teal bg 0.25))
 
    (lsp-ui-doc-background      :background base1)
    (lsp-face-highlight-read    :background (doom-blend red bg 0.3))
