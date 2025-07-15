@@ -41,7 +41,7 @@
 (setq default-directory "~")
 
 ;; Improve the modeline and Icons
-(setq nerd-icons-scale-factor 0.86)
+(setq nerd-icons-scale-factor 1)
 (setq doom-modeline-height 32)
 
 ;; Remap the keybinding to open xwidget browser
