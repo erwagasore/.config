@@ -52,7 +52,7 @@
    ;; Additional colors
    (bg-region     '("#163764" nil       nil            ))
 
-   (highlight      (doom-lighten bg-region 0.6))
+   (highlight      (doom-darken blue 0.6))
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        cyan)
@@ -82,7 +82,7 @@
    (modeline-bg-l base2)
    (modeline-bg-inactive (doom-darken bg 0.1))
    (modeline-bg-inactive-l `(,(doom-darken (car bg-alt) 0.05) ,@(cdr base1)))
-   
+
    ;; Cursor
    (cursor (doom-lighten yellow 0.2)))
 
@@ -91,6 +91,9 @@
 
    ((line-number &override) :foreground (doom-lighten base4 0.15))
    ((line-number-current-line &override) :foreground fg-alt)
+
+   (whitespace-space :foreground (doom-darken highlight 0.56))
+   (whitespace-newline :foreground (doom-darken highlight 0.32))
 
    (doom-modeline-bar :background highlight)
    (doom-modeline-project-dir :foreground violet :weight 'bold)
@@ -111,7 +114,7 @@
    (magit-diff-hunk-heading-highlight :foreground fg :background (doom-lighten bg 0.15) :bold bold)
    (magit-diff-file-heading :foreground blue :bold bold)
    (magit-diff-file-heading-highlight :foreground blue :background (doom-lighten bg 0.05) :bold bold)
-   
+
    (diff-added :foreground green :background (doom-blend green bg 0.2))
    (diff-removed :foreground red :background (doom-blend red bg 0.2))
    (diff-changed :foreground orange :background (doom-blend orange bg 0.2))

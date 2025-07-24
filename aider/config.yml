@@ -1,0 +1,28 @@
+# Use architect for main chat
+architect: true
+
+# Main model
+model: openai/qwen-max
+# Editor tasks model and its format
+editor-model: deepseek/deepseek-coder
+# Commits and Chat history model
+weak-model: openai/qwen-turbo
+
+# Editor Settings
+pretty: false
+verbose: true
+
+# Git & Commit Settings
+git: true
+gitignore: true
+show-diffs: true
+auto-commits: false
+
+# File Watching
+watch-files: true
+
+# Read-only Files
+read:
+  - "~/.aider/AI_RULES.md" # Global conventions
+  - "CONVENTIONS.md" # Project specific
+  - "README.md"

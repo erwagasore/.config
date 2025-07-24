@@ -3,6 +3,13 @@ set -x EDITOR emacs
 set -x VISUAL emacs
 set -x TERM xterm-256color
 
+# 1Password secret reference for Qwen API
+# set -x ANTHROPIC_API_KEY (op item get "ANTHROPIC_API_KEY" --fields "credential" --reveal)
+set -x DEEPSEEK_API_KEY (op item get "DEEPSEEK_API_KEY" --fields "credential" --reveal)
+# set -x OPENAI_API_KEY (op item get "OPENAI_API_KEY" --fields "credential" --reveal)
+set -x OPENAI_BASE_URL "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+set -x OPENAI_API_KEY (op item get "DASHSCOPE_API_KEY" --fields "credential" --reveal)
+
 # 1Password SSH Agent
 set -gx SSH_AUTH_SOCK ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 

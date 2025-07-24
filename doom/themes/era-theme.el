@@ -84,6 +84,9 @@
    ((line-number &override) :foreground (doom-darken base4 0.25))
    ((line-number-current-line &override) :foreground base8)
 
+   (whitespace-space :foreground (doom-lighten highlight 0.72))
+   (whitespace-newline :foreground (doom-lighten highlight 0.56))
+
    (doom-modeline-bar :background highlight)
    (doom-modeline-project-dir :foreground violet :weight 'bold)
    (doom-modeline-buffer-file :weight 'regular)
@@ -103,7 +106,7 @@
    (magit-diff-hunk-heading-highlight :foreground fg :background (doom-darken bg 0.15) :bold bold)
    (magit-diff-file-heading :foreground blue :bold bold)
    (magit-diff-file-heading-highlight :foreground blue :background (doom-darken bg 0.05) :bold bold)
-   
+
    (diff-added :foreground green :background (doom-blend green bg 0.15))
    (diff-removed :foreground red :background (doom-blend red bg 0.15))
    (diff-changed :foreground orange :background (doom-blend orange bg 0.15))
