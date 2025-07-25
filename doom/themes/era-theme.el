@@ -91,8 +91,8 @@
    ((line-number &override) :foreground (doom-lighten base4 0.15))
    ((line-number-current-line &override) :foreground fg-alt)
 
-   (whitespace-space :foreground (doom-darken highlight 0.56))
-   (whitespace-newline :foreground (doom-darken highlight 0.32))
+   (whitespace-space :foreground (doom-lighten modeline-fg-alt 0.56))
+   (whitespace-newline :foreground (doom-lighten modeline-fg-alt 0.56))
 
    (doom-modeline-bar :background highlight)
    (doom-modeline-project-dir :foreground violet :weight 'bold)
