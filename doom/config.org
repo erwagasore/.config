@@ -201,26 +201,35 @@
 ** Aidermacs
 #+begin_src emacs-lisp
 (use-package! aidermacs
- :config
- (setq aidermacs-backend 'vterm
-       aidermacs-exit-kills-buffer t
-       aidermacs-show-diff-after-change t
-       aidermacs-auto-mode-files '(".aider.prompt.org"))
- (setopt aidermacs-vterm-use-theme-colors t)
+  :config
+  (setq aidermacs-backend 'vterm
+        aidermacs-exit-kills-buffer t
+        aidermacs-show-diff-after-change t
+        aidermacs-auto-mode-files '(".aider.prompt.org"))
+  (setopt aidermacs-vterm-use-theme-colors t)
 
- (add-hook! 'aidermacs-before-run-backend-hook
-   (lambda ()
-     (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
-     (setenv
-      "OPENAI_API_KEY"
-      (string-trim (shell-command-to-string "op item get 'DASHSCOPE_API_KEY' --fields 'credential' --reveal")))
-     (setenv
-      "DEEPSEEK_API_KEY"
-      (string-trim (shell-command-to-string "op item get 'DEEPSEEK_API_KEY' --fields 'credential' --reveal")))))
+  (defun aidermacs-get-api-key (key-name)
+    "Get API key from auth-source or 1Password."
+    (or (ignore-errors
+         (auth-source-pick-first-password :host key-name))
+        (string-trim (shell-command-to-string
+                     (format "op item get '%s' --fields 'credential' --reveal" key-name)))))
 
- (map! :leader
-       (:prefix-map ("SPC" . "AI")
-        :desc "Aidermacs Menu" "a" #'aidermacs-transient-menu)))
+  (defun set-aidermacs-env-vars ()
+    "Set environment variables for Aidermacs."
+    (let ((dashscope-key (aidermacs-get-api-key "DASHSCOPE_API_KEY"))
+          (deepseek-key (aidermacs-get-api-key "DEEPSEEK_API_KEY")))
+      (unless (and dashscope-key deepseek-key)
+        (user-error "Failed to retrieve API keys"))
+      (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+      (setenv "OPENAI_API_KEY" dashscope-key)
+      (setenv "DEEPSEEK_API_KEY" deepseek-key)))
+
+  (add-hook 'aidermacs-before-run-backend-hook #'set-aidermacs-env-vars)
+
+  (map! :leader
+        (:prefix-map ("SPC" . "AI")
+         :desc "Aidermacs Menu" "a" #'aidermacs-transient-menu)))
 #+end_src
 ** Magit
 #+begin_src emacs-lisp
