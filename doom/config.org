@@ -207,13 +207,16 @@
        aidermacs-show-diff-after-change t
        aidermacs-auto-mode-files '(".aider.prompt.org"))
  (setopt aidermacs-vterm-use-theme-colors t)
- (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
- (setenv
-  "OPENAI_API_KEY"
-  (string-trim (shell-command-to-string "op item get 'DASHSCOPE_API_KEY' --fields 'credential' --reveal")))
- (setenv
-  "DEEPSEEK_API_KEY"
-  (string-trim (shell-command-to-string "op item get 'DEEPSEEK_API_KEY' --fields 'credential' --reveal")))
+
+ (add-hook! 'aidermacs-before-run-backend-hook
+   (lambda ()
+     (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+     (setenv
+      "OPENAI_API_KEY"
+      (string-trim (shell-command-to-string "op item get 'DASHSCOPE_API_KEY' --fields 'credential' --reveal")))
+     (setenv
+      "DEEPSEEK_API_KEY"
+      (string-trim (shell-command-to-string "op item get 'DEEPSEEK_API_KEY' --fields 'credential' --reveal")))))
 
  (map! :leader
        (:prefix-map ("SPC" . "AI")
