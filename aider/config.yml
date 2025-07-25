@@ -9,8 +9,8 @@ editor-model: deepseek/deepseek-coder
 weak-model: openai/qwen-turbo
 
 # Editor Settings
-pretty: false
-verbose: true
+pretty: true
+# verbose: true
 
 # Git & Commit Settings
 git: true
