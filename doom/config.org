@@ -204,7 +204,7 @@
   :config
   (setq aidermacs-backend 'vterm
         aidermacs-exit-kills-buffer t
-        aidermacs-show-diff-after-change nil
+        aidermacs-show-diff-after-change t
         aidermacs-auto-mode-files '(".aider.prompt.org"))
   (setopt aidermacs-vterm-use-theme-colors t)
 
