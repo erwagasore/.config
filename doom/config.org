@@ -208,14 +208,6 @@
         aidermacs-auto-mode-files '(".aider.prompt.org"))
   (setopt aidermacs-vterm-use-theme-colors t)
 
-  (defun set-aidermacs-env-vars ()
-    "Set environment variables for Aidermacs."
-    (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
-    (setenv "OPENAI_API_KEY" (auth-source-pick-first-password :host "aliyunc.com"))
-    (setenv "DEEPSEEK_API_KEY" (auth-source-pick-first-password :host "deepseek.com")))
-
-  (add-hook 'aidermacs-before-run-backend-hook #'set-aidermacs-env-vars)
-
   (map! :leader
         (:prefix-map ("SPC" . "AI")
          :desc "Aidermacs Menu" "a" #'aidermacs-transient-menu)))

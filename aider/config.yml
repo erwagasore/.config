@@ -1,28 +1,43 @@
-# Use architect for main chat
+# Aider Configuration Settings
+
+# Architect mode enables planning capabilities
 architect: true
 
-# Main model
-model: openai/qwen-max
-# Editor tasks model and its format
+# Model configurations
+# Main chat model for general conversation and reasoning
+model: openai/qwen-plus
+# Editor-specific model optimized for code tasks
 editor-model: deepseek/deepseek-coder
-# Commits and Chat history model
+# Lightweight model for git commit messages and history summarization
 weak-model: openai/qwen-turbo
 
-# Editor Settings
+# Display settings
 pretty: true
+show_diffs: true  # Always show diff after code changes
 
-# Git & Commit Settings
-git: true
-gitignore: true
+# Git integration settings
 auto-commits: false
 show_gitignore_prompts: false
 
-# File Watching
+# File watching settings
 watch-files: true
-show_unknown_context_warning: false
 
-# Read-only Files
+# Editor preferences
+editor: emacs
+# Theme Configuration
+# Managed automatically by theme-watcher.sh
+code-theme: "paraiso-light"  # Will switch to paraiso-dark in dark mode
+show-model-warnings: false
+
+# Read-only files that should be considered during operation
 read:
   - "~/.aider/AI_RULES.md" # Global conventions
-  - "CONVENTIONS.md" # Project specific
-  - "README.md"
+  - "CONVENTIONS.md" # Project-specific conventions
+  - "README.md" # Project documentation
+
+# Color scheme matching era Emacs theme
+user-input-color: "#404040"
+assistant-output-color: "#0098dd"
+tool-output-color: "#50a14f"
+tool-warning-color: "#005478"
+tool-error-color: "#e45649"
