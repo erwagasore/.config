@@ -13,11 +13,10 @@ weak-model: openai/qwen-turbo
 
 # Display settings
 pretty: true
-show_diffs: true  # Always show diff after code changes
+show-diffs: true # Always show diff after code changes
 
 # Git integration settings
 auto-commits: false
-show_gitignore_prompts: false
 
 # File watching settings
 watch-files: true
@@ -26,7 +25,7 @@ watch-files: true
 editor: emacs
 # Theme Configuration
 # Managed automatically by theme-watcher.sh
-code-theme: "paraiso-light"  # Will switch to paraiso-dark in dark mode
+code-theme: "paraiso-light" # Will switch to paraiso-dark in dark mode
 show-model-warnings: false
 
 # Read-only files that should be considered during operation
