@@ -32,8 +32,51 @@ cat /tmp/theme-watcher-error.log
 
 ## Uninstall
 
-To remove:
+To properly remove the service:
+
+1. First check if it's running:
 ```bash
-launchctl unload ~/Library/LaunchAgents/local.theme-watcher.plist
+launchctl list | grep theme-watcher
+# Or for user-level agents:
+launchctl list --user $(id -u) | grep theme-watcher
+```
+
+2. Stop and unload the service:
+```bash
+launchctl stop local.theme-watcher
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/local.theme-watcher.plist
+```
+
+3. Remove the plist file:
+```bash
 rm ~/Library/LaunchAgents/local.theme-watcher.plist
 ```
+
+## Troubleshooting
+
+If you get "Boot-out failed: 5: Input/output error":
+
+1. Verify the plist file exists:
+```bash
+ls -l ~/Library/LaunchAgents/local.theme-watcher.plist
+```
+
+2. Check the logs:
+```bash
+cat /tmp/theme-watcher.log
+cat /tmp/theme-watcher-error.log
+```
+
+3. Ensure the script is executable:
+```bash
+chmod +x ~/.config/scripts/theme-watcher.sh
+```
+
+4. Reload the service:
+```bash
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/local.theme-watcher.plist
+launchctl start local.theme-watcher
+```
+
+> Never use `sudo` with LaunchAgents - they run per-user.
+> Always use `gui/$(id -u)` when referencing user agents.
