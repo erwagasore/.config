@@ -130,10 +130,15 @@
    (markdown-code-face       :background base1)
    (mmm-default-submode-face :background base1)
 
-   (ediff-current-diff-A        :foreground red   :background (doom-blend red bg 0.2))
-   (ediff-current-diff-B        :foreground green :background (doom-blend green bg 0.2))
-   (ediff-current-diff-C        :foreground blue  :background (doom-blend blue bg 0.2))
-   (ediff-current-diff-Ancestor :foreground teal  :background (doom-blend teal bg 0.2))
+   (ediff-current-diff-A        :foreground red   :background (doom-blend red bg 0.24))
+   (ediff-current-diff-B        :foreground green :background (doom-blend green bg 0.24))
+   (ediff-current-diff-C        :foreground blue  :background (doom-blend blue bg 0.24))
+   (ediff-current-diff-Ancestor :foreground teal  :background (doom-blend teal bg 0.24))
+
+   (ediff-fine-diff-A        :foreground red   :background (doom-blend red bg 0.4))
+   (ediff-fine-diff-B        :foreground green :background (doom-blend green bg 0.4))
+   (ediff-fine-diff-C        :foreground blue  :background (doom-blend blue bg 0.4))
+   (ediff-fine-diff-Ancestor :foreground teal  :background (doom-blend teal bg 0.4))
 
    (lsp-ui-doc-background      :background base0)
    (lsp-face-highlight-read    :background (doom-blend red bg 0.3))
