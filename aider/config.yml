@@ -10,16 +10,16 @@ weak-model: openai/qwen-turbo
 
 # Editor Settings
 pretty: true
-# verbose: true
 
 # Git & Commit Settings
 git: true
 gitignore: true
-show-diffs: true
 auto-commits: false
+show_gitignore_prompts: false
 
 # File Watching
 watch-files: true
+show_unknown_context_warning: false
 
 # Read-only Files
 read:

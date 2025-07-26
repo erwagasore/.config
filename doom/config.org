@@ -204,26 +204,15 @@
   :config
   (setq aidermacs-backend 'vterm
         aidermacs-exit-kills-buffer t
-        aidermacs-show-diff-after-change t
+        aidermacs-show-diff-after-change nil
         aidermacs-auto-mode-files '(".aider.prompt.org"))
   (setopt aidermacs-vterm-use-theme-colors t)
 
-  (defun aidermacs-get-api-key (key-name)
-    "Get API key from auth-source or 1Password."
-    (or (ignore-errors
-         (auth-source-pick-first-password :host key-name))
-        (string-trim (shell-command-to-string
-                     (format "op item get '%s' --fields 'credential' --reveal" key-name)))))
-
   (defun set-aidermacs-env-vars ()
     "Set environment variables for Aidermacs."
-    (let ((dashscope-key (aidermacs-get-api-key "DASHSCOPE_API_KEY"))
-          (deepseek-key (aidermacs-get-api-key "DEEPSEEK_API_KEY")))
-      (unless (and dashscope-key deepseek-key)
-        (user-error "Failed to retrieve API keys"))
-      (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
-      (setenv "OPENAI_API_KEY" dashscope-key)
-      (setenv "DEEPSEEK_API_KEY" deepseek-key)))
+    (setenv "OPENAI_BASE_URL" "https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    (setenv "OPENAI_API_KEY" (auth-source-pick-first-password :host "aliyunc.com"))
+    (setenv "DEEPSEEK_API_KEY" (auth-source-pick-first-password :host "deepseek.com")))
 
   (add-hook 'aidermacs-before-run-backend-hook #'set-aidermacs-env-vars)
 
@@ -231,6 +220,7 @@
         (:prefix-map ("SPC" . "AI")
          :desc "Aidermacs Menu" "a" #'aidermacs-transient-menu)))
 #+end_src
+
 ** Magit
 #+begin_src emacs-lisp
 ;; Remove `--literal-pathspecs` argument which was causing `pre-commit` to fail
@@ -246,4 +236,3 @@
         highlight-indent-guides-responsive 'stack
         highlight-indent-guides-suppress-auto-error t))
 #+end_src
-
