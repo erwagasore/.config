@@ -16,7 +16,7 @@ pretty: true
 show-diffs: true # Always show diff after code changes
 
 # Git integration settings
-auto-commits: false
+auto-commits: true # Enable automatic commits for change tracking
 
 # File watching settings
 watch-files: true
