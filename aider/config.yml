@@ -7,7 +7,7 @@ architect: true
 # Main chat model for general conversation and reasoning
 model: openai/qwen-plus
 # Editor-specific model optimized for code tasks
-editor-model: deepseek/deepseek-coder
+editor-model: openai/qwen3-coder-plus
 # Lightweight model for git commit messages and history summarization
 weak-model: openai/qwen-turbo
 
@@ -24,7 +24,6 @@ watch-files: true
 # Editor preferences
 editor: emacs
 # Theme Configuration
-# Managed automatically by theme-watcher.sh
 code-theme: "paraiso-light" # Will switch to paraiso-dark in dark mode
 show-model-warnings: false
 

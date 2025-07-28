@@ -1,5 +1,4 @@
 # Essential environment variables
-set -x GPG_TTY (tty)
 set -x EDITOR emacs
 set -x VISUAL emacs
 set -x TERM xterm-256color
