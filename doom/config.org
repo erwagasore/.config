@@ -59,16 +59,28 @@
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
+(defvar my/base-aider-args
+  '("--thinking-tokens" "16k"
+    "--user-input-color" "#8B7FB8"
+    "--assistant-output-color" "#6BB6DB"
+    "--tool-output-color" "#8BC49C"
+    "--tool-warning-color" "#D4A574"
+    "--tool-error-color" "#DB8B8B"))
+
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'era t))
-    ('dark (load-theme 'ijima t))))
+    ('light (load-theme 'era t)
+            (setq aidermacs-extra-args (append my/base-aider-args
+                                               '("--code-theme" "paraiso-light"))))
+    ('dark (load-theme 'ijima t)
+           (setq aidermacs-extra-args (append my/base-aider-args
+                                              '("--code-theme" "paraiso-dark"))))))
 
+;; Rest of your existing setup stays the same
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
-;; Apply theme on startup based on current system appearance
 (when (boundp 'ns-system-appearance)
   (my/apply-theme ns-system-appearance))
 
@@ -76,7 +88,6 @@
   (setq heaven-and-hell-themes
         '((light . era)
           (dark . ijima)))
-  ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
 
@@ -88,6 +99,7 @@
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 #+end_src
+
 * UI Configurations
 #+begin_src emacs-lisp
 ;; Disable Emacs killing confirmation
@@ -203,8 +215,16 @@
 (use-package! aidermacs
   :config
   (setq aidermacs-backend 'vterm
+        aidermacs-watch-files t
+        aidermacs-auto-commits nil
         aidermacs-exit-kills-buffer t
-        aidermacs-auto-mode-files '(".aider.prompt.org"))
+        aidermacs-show-diff-after-change t
+        aidermacs-default-chat-mode 'architect
+        aidermacs-default-model "openai/qwen-plus"
+        aidermacs-editor-model "openai/qwen-coder-plus"
+        aidermacs-weak-model "openai/qwen-turbo"
+        aidermacs-auto-mode-files '(".aider.prompt.org")
+        aidermacs-project-read-only-files '("README.md" "CONVENTIONS.md"))
   (setopt aidermacs-vterm-use-theme-colors t)
 
   (map! :leader
