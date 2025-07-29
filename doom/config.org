@@ -60,12 +60,12 @@
 * Theme Configurations
 #+begin_src emacs-lisp
 (defvar my/base-aider-args
-  '("--thinking-tokens" "16k"
-    "--user-input-color" "#8B7FB8"
-    "--assistant-output-color" "#6BB6DB"
-    "--tool-output-color" "#8BC49C"
-    "--tool-warning-color" "#D4A574"
-    "--tool-error-color" "#DB8B8B"))
+  '("--no-show-model-warnings"
+    "--user-input-color" "\\#8B7FB8"
+    "--assistant-output-color" "\\#6BB6DB"
+    "--tool-output-color" "\\#8BC49C"
+    "--tool-warning-color" "\\#D4A574"
+    "--tool-error-color" "\\#DB8B8B"))
 
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
