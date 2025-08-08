@@ -7,7 +7,7 @@
        doom
        (emoji +ascii +unicode +github)
        hl-todo
-       (ligatures +extra)
+       (ligatures +extra +iosevka +pragmata-pro)
        modeline
        nav-flash
        ophints
@@ -40,26 +40,28 @@
 
        :tools
        direnv
-       docker
+       (docker +lsp)
        ein
        (eval +overlay)
        lookup
        (lsp +eglot)
+       rgb
        magit
        tree-sitter
        upload
 
        :os
        (:if IS-MAC macos)
-       tty
+       (tty +osc)
 
        :lang
        emacs-lisp
-       json
+       (json +lsp +tree-sitter)
        (javascript +lsp +tree-sitter)
-       markdown
+       (markdown +grip)
        (org)
        (rust +lsp +tree-sitter)
+       (swift +lsp +tree-sitter)
        (web +lsp +tree-sitter)
        (yaml +lsp +tree-sitter)
 

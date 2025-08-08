@@ -1,0 +1,29 @@
+vim.pack.add({
+  {
+    src="https://github.com/stevearc/oil.nvim",
+    lazy=false
+  },
+  {
+    src="https://github.com/benomahony/oil-git.nvim",
+    lazy=false
+  },
+  {
+    src="https://github.com/refractalize/oil-git-status.nvim",
+    lazy=false,
+    config=true
+  },
+  {
+    src="https://github.com/JezerM/oil-lsp-diagnostics.nvim",
+    lazy=false
+  }
+})
+
+require("oil").setup({
+  win_options={
+    signcolumn="yes:2"
+  }
+})
+
+require("oil-git").setup()
+require("oil-git-status").setup()
+require("oil-lsp-diagnostics").setup()

@@ -60,7 +60,8 @@
 * Theme Configurations
 #+begin_src emacs-lisp
 (defvar my/base-aider-args
-  '("--no-show-model-warnings"
+  '("--no-gitignore"
+    "--no-show-model-warnings"
     "--user-input-color" "\\#8B7FB8"
     "--assistant-output-color" "\\#6BB6DB"
     "--tool-output-color" "\\#8BC49C"
@@ -125,10 +126,11 @@
  blink-cursor-delay 0
  blink-cursor-interval 0.4)
 
-(blink-cursor-mode t)
+;; Default fringe size for all frames
+(fringe-mode '(3 . 3))
+(setq-default indicate-empty-lines t)
 
-;; Set fringes size
-(set-fringe-mode '(2 . 2))
+(blink-cursor-mode t)
 
 ;; Disable fringe-mode on xwidget
 (defun no-fringes-config ()
@@ -143,13 +145,11 @@
 
 (add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
 
-(use-package! whitespace
-  :hook (prog-mode . whitespace-mode)
-  :config
-  (setq whitespace-line-column 112
-        whitespace-style
-        '(face tabs spaces trailing lines space-before-tab newline indentation
-          empty space-after-tab space-mark tab-mark newline-mark)))
+(global-whitespace-mode t)
+(setq whitespace-line-column 112
+      whitespace-style
+      '(face tabs spaces trailing lines space-before-tab newline indentation
+        empty space-after-tab space-mark tab-mark newline-mark))
 #+end_src
 * Languages Configurations
 ** Org Mode Configurations
@@ -220,8 +220,8 @@
         aidermacs-exit-kills-buffer t
         aidermacs-show-diff-after-change t
         aidermacs-default-chat-mode 'architect
-        aidermacs-default-model "openai/qwen-plus"
-        aidermacs-editor-model "openai/qwen-coder-plus"
+        aidermacs-default-model "anthropic/claude-sonnet-4-20250514"
+        aidermacs-editor-model "anthropic/claude-sonnet-4-20250514"
         aidermacs-weak-model "openai/qwen-turbo"
         aidermacs-auto-mode-files '(".aider.prompt.org")
         aidermacs-project-read-only-files '("README.md" "CONVENTIONS.md"))

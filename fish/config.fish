@@ -17,11 +17,6 @@ fish_add_path /opt/homebrew/lib/ruby/gems/3.2.0/bin
 fish_add_path /opt/homebrew/opt/grep/libexec/gnubin
 fish_add_path ~/.config/emacs/bin
 
-# Add npm global binaries to PATH
-if command -v npm > /dev/null
-    set -gx PATH $PATH (npm bin -g 2>/dev/null)
-end
-
 # python alias
 alias python python3
 
@@ -34,5 +29,8 @@ abbr dcp 'docker compose ps'
 abbr dcd 'docker compose down'
 
 # Add starship
-set -x STARSHIP_CONFIG ~/.config/fish/starship.toml
-starship init fish | source
+# Only initialize Starship if NOT in Warp terminal
+if test "$TERM_PROGRAM" != "WarpTerminal"
+   set -x STARSHIP_CONFIG ~/.config/fish/starship.toml
+   starship init fish | source
+end

@@ -51,7 +51,7 @@
    ;; Additional colors
    (bg-region     '("#163764" nil       nil            ))
 
-   (highlight      (doom-darken blue 0.6))
+   (highlight      (doom-darken blue 0.64))
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        cyan)
@@ -89,8 +89,8 @@
    ((line-number &override) :foreground (doom-lighten base4 0.15))
    ((line-number-current-line &override) :foreground fg-alt)
 
-   (whitespace-space :foreground (doom-darken modeline-fg-alt 0.64))
-   (whitespace-newline :foreground (doom-darken modeline-fg-alt 0.64))
+   (whitespace-space :foreground (doom-darken modeline-fg-alt 0.72))
+   (whitespace-newline :foreground (doom-darken modeline-fg-alt 0.72))
 
    (doom-modeline-bar :background highlight)
    (doom-modeline-project-dir :foreground violet :weight 'bold)
