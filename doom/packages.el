@@ -7,8 +7,9 @@
 ;; Enable org-superstar
 (package! org-superstar)
 
-;; Pair Programming with LLMs
-(package! aidermacs)
+;; Enable Claude Code IDE
+(package! claude-code-ide
+  :recipe (:host github :repo "manzaltu/claude-code-ide.el"))
 
-;; Terminal emulator
-(package! eat)
+;; Add Editor Code Assistant
+(package! eca :recipe (:host github :repo "editor-code-assistant/eca-emacs" :files ("*.el")))

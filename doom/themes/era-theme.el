@@ -52,7 +52,6 @@
    (red-accent    '("#e45649" "#e45649" "red"          ))
    (bg-region     '("#d2ecff" nil       nil            ))
 
-
    (highlight      (doom-darken blue 0.15))
    (vertical-bar   base2)
    (selection      dark-blue)
@@ -88,8 +87,8 @@
   ((font-lock-comment-face :foreground comments :weight 'bold)
    (font-lock-doc-face :inherit 'font-lock-comment-face :foreground doc-comments :weight 'regular)
 
-   ((line-number &override) :foreground (doom-lighten base4 0.15))
-   ((line-number-current-line &override) :foreground fg-alt)
+   ((line-number &override) :foreground (doom-lighten base4 0.48) :height 0.88)
+   ((line-number-current-line &override) :foreground (doom-lighten fg-alt 0.32) :height 0.88)
 
    (whitespace-space :foreground (doom-lighten modeline-fg-alt 0.56))
    (whitespace-newline :foreground (doom-lighten modeline-fg-alt 0.56))

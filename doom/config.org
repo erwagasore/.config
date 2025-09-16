@@ -10,6 +10,14 @@
 
 * Sane Defaults
 #+begin_src emacs-lisp
+;; Optimize garbage collection for better startup performance
+(setq gc-cons-threshold (* 50 1000 1000)) ; 50MB (default is ~800KB)
+
+;; Reset GC threshold after startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 2 1000 1000)))) ; 2MB after startup
+
 (setq-default
  delete-by-moving-to-trash t
  window-combination-resize t)
@@ -33,10 +41,10 @@
 ;; Set Scratch to org-mode as default
 (setq initial-major-mode 'org-mode)
 
-;; autosave
+;; autosave - optimized intervals for better performance
 (auto-save-visited-mode t)
-(setq auto-save-timeout 1)
-(setq auto-save-interval 50)
+(setq auto-save-timeout 20)  ; 20 seconds instead of 1
+(setq auto-save-interval 200) ; 200 keystrokes instead of 50
 (setq auto-save-visited-file-name t)
 (setq default-directory "~")
 
@@ -54,36 +62,23 @@
 * Font Rendering
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
-       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 21)
+       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
-(defvar my/base-aider-args
-  '("--no-gitignore"
-    "--no-show-model-warnings"
-    "--user-input-color" "\\#8B7FB8"
-    "--assistant-output-color" "\\#6BB6DB"
-    "--tool-output-color" "\\#8BC49C"
-    "--tool-warning-color" "\\#D4A574"
-    "--tool-error-color" "\\#DB8B8B"))
-
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (load-theme 'era t)
-            (setq aidermacs-extra-args (append my/base-aider-args
-                                               '("--code-theme" "paraiso-light"))))
-    ('dark (load-theme 'ijima t)
-           (setq aidermacs-extra-args (append my/base-aider-args
-                                              '("--code-theme" "paraiso-dark"))))))
+    ('light (load-theme 'era t))
+    ('dark (load-theme 'ijima t))))
 
-;; Rest of your existing setup stays the same
-(add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
-
-(when (boundp 'ns-system-appearance)
-  (my/apply-theme ns-system-appearance))
+;; Setup system appearance handling with proper guards
+(when (featurep 'ns) ; Only on macOS
+  (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+  (when (boundp 'ns-system-appearance)
+    (my/apply-theme ns-system-appearance)))
 
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
@@ -106,13 +101,9 @@
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
 
-;transparent adjustment
- (set-frame-parameter (selected-frame) 'alpha '(100 . 96))
- (add-to-list 'default-frame-alist '(alpha . (100 . 96)))
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
+;; transparent adjustment
+(set-frame-parameter (selected-frame) 'alpha '(100 . 96))
+(add-to-list 'default-frame-alist '(alpha . (100 . 96)))
 
 ;; remove title bar but round the window
 (add-to-list 'default-frame-alist '(undecorated-round . t))
@@ -138,19 +129,33 @@
   (set-window-fringes nil 0 0))
 
 (defun xwidget-webkit-no-fringes-hook ()
-  "Custom `xwidget-webkit-mode' behaviours."
+  "Custom `xwidget-webkit-mode' behariours."
   (setq header-line-format nil)
   (add-hook 'window-configuration-change-hook
             'no-fringes-config nil :local))
 
 (add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
 
-(global-whitespace-mode t)
-(setq whitespace-line-column 112
-      whitespace-style
-      '(face tabs spaces trailing lines space-before-tab newline indentation
-        empty space-after-tab space-mark tab-mark newline-mark))
+;; User relative line numbers only in prog-mode
+(setq display-line-numbers-type 'relative)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+
+;; Customise modeline
+(setq doom-modeline-modal-icon nil
+      doom-modeline-modal-modern-icon nil)
+
+;; remove abbreviation
+(after! evil
+  (setq evil-normal-state-tag   "NORMAL"
+        evil-insert-state-tag   "INSERT"
+        evil-visual-state-tag   "VISUAL"
+        evil-replace-state-tag  "REPLACE"
+        evil-operator-state-tag "OPERATOR"
+        evil-emacs-state-tag    "EMACS"
+        evil-motion-state-tag   "MOTION"))
 #+end_src
+
 * Languages Configurations
 ** Org Mode Configurations
 #+begin_src emacs-lisp
@@ -195,6 +200,11 @@
       web-mode-auto-close-style 2
       web-mode-tag-auto-close-style 2))
 #+end_src
+** Rust Mode Configurations
+#+begin_src emacs-lisp
+(after! rustic
+  (setq rustic-format-on-save t))
+#+end_src
 * Clients Configurations
 ** LSP
 #+begin_src emacs-lisp
@@ -210,40 +220,38 @@
         company-minimum-prefix-length 1)
   (setq company-show-numbers t))
 #+end_src
-** Aidermacs
+** Whitespace
 #+begin_src emacs-lisp
-(use-package! aidermacs
-  :config
-  (setq aidermacs-backend 'vterm
-        aidermacs-watch-files t
-        aidermacs-auto-commits nil
-        aidermacs-exit-kills-buffer t
-        aidermacs-show-diff-after-change t
-        aidermacs-default-chat-mode 'architect
-        aidermacs-default-model "anthropic/claude-sonnet-4-20250514"
-        aidermacs-editor-model "anthropic/claude-sonnet-4-20250514"
-        aidermacs-weak-model "openai/qwen-turbo"
-        aidermacs-auto-mode-files '(".aider.prompt.org")
-        aidermacs-project-read-only-files '("README.md" "CONVENTIONS.md"))
-  (setopt aidermacs-vterm-use-theme-colors t)
+(after! whitespace
+  (setq whitespace-line-column 120  ; Standard column width
+        whitespace-style
+        '(face tabs spaces trailing lines space-before-tab newline indentation
+          empty space-after-tab space-mark tab-mark newline-mark)))
 
-  (map! :leader
-        (:prefix-map ("SPC" . "AI")
-         :desc "Aidermacs Menu" "a" #'aidermacs-transient-menu)))
+;; Enable whitespace mode only for smaller files to avoid performance issues
+(defun my/selective-whitespace-mode ()
+  "Enable whitespace-mode only for files smaller than 100KB."
+  (when (< (buffer-size) (* 100 1024))
+    (whitespace-mode 1)))
+
+(add-hook! 'prog-mode-hook #'my/selective-whitespace-mode)
 #+end_src
-
 ** Magit
 #+begin_src emacs-lisp
 ;; Remove `--literal-pathspecs` argument which was causing `pre-commit` to fail
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
-
-** Indent Guides
+** Claude Code IDE
 #+begin_src emacs-lisp
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-delay 0
-        highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'stack
-        highlight-indent-guides-suppress-auto-error t))
+(use-package! claude-code-ide
+  :config
+  (setq claude-code-ide-use-side-window nil
+        claude-code-ide-focus-claude-after-ediff nil
+        claude-code-ide-switch-tab-on-ediff nil
+        claude-code-ide-show-claude-window-in-ediff nil
+        claude-code-ide-vterm-anti-flicker t)
+  (claude-code-ide-emacs-tools-setup))
+
+(map! :leader :desc "Claude Code IDE menu" "." #'claude-code-ide-menu)
 #+end_src

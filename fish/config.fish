@@ -15,6 +15,8 @@ fish_add_path ~/go/bin
 fish_add_path /opt/homebrew/opt/ruby/bin
 fish_add_path /opt/homebrew/lib/ruby/gems/3.2.0/bin
 fish_add_path /opt/homebrew/opt/grep/libexec/gnubin
+
+# Add Doom to PATH
 fish_add_path ~/.config/emacs/bin
 
 # python alias

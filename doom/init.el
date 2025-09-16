@@ -5,19 +5,19 @@
 
        :ui
        doom
+       modeline
        (emoji +ascii +unicode +github)
        hl-todo
        (ligatures +extra +iosevka +pragmata-pro)
-       modeline
        nav-flash
        ophints
        (popup +defaults)
        (vc-gutter +pretty)
        (window-select +switch-window)
        workspaces
-       indent-guides
 
        :editor
+       (evil +everywhere)
        file-templates
        fold
        word-wrap

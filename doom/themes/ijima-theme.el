@@ -86,8 +86,8 @@
   ((font-lock-comment-face :foreground comments :weight 'bold)
    (font-lock-doc-face :inherit 'font-lock-comment-face :foreground doc-comments :weight 'regular)
 
-   ((line-number &override) :foreground (doom-lighten base4 0.15))
-   ((line-number-current-line &override) :foreground fg-alt)
+   ((line-number &override) :foreground (doom-darken base4 0.48) :height 0.9)
+   ((line-number-current-line &override) :foreground (doom-darken fg-alt 0.32) :height 0.9)
 
    (whitespace-space :foreground (doom-darken modeline-fg-alt 0.72))
    (whitespace-newline :foreground (doom-darken modeline-fg-alt 0.72))
