@@ -57,6 +57,12 @@
       :desc "Open XWidget Browser URL" "o b" #'xwidget-webkit-browse-url)
 
 (setq ns-use-srgb-colorspace nil)
+
+(defun my/auth-get (host)
+  "Get password for HOST from .authinfo.gpg"
+  (when-let* ((result (car (auth-source-search :host host :max 1)))
+              (secret (plist-get result :secret)))
+    (funcall secret)))
 #+end_src
 
 * Font Rendering
@@ -108,8 +114,20 @@
 ;; remove title bar but round the window
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
+;; Set window size and center it on screen
+(add-to-list 'default-frame-alist '(width . 145))
+(add-to-list 'default-frame-alist '(height . 43))
+(add-to-list 'initial-frame-alist '(width . 145))
+(add-to-list 'initial-frame-alist '(height . 43))
+
+;; Center the frame on screen using built-in frame positioning
+(add-to-list 'default-frame-alist '(left . 0.5))
+(add-to-list 'default-frame-alist '(top . 0.5))
+(add-to-list 'initial-frame-alist '(left . 0.5))
+(add-to-list 'initial-frame-alist '(top . 0.5))
+
 ;; Maximize the window to fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; Customize the cursor
 (setq-default
@@ -226,7 +244,16 @@
   (setq whitespace-line-column 120  ; Standard column width
         whitespace-style
         '(face tabs spaces trailing lines space-before-tab newline indentation
-          empty space-after-tab space-mark tab-mark newline-mark)))
+          empty space-after-tab space-mark tab-mark newline-mark))
+
+  ;; Customize whitespace markers
+  (setq whitespace-display-mappings
+        '(;; Space · (middle dot)
+          (space-mark 32 [183] [46])           ; 32 SPACE → 183 MIDDLE DOT 「·」
+          ;; Newline ¬ or ↵ or ¶
+          (newline-mark 10 [172 10])           ; 10 LINE FEED → 172 NOT SIGN 「¬」
+          ;; Tab » or → or ▸
+          (tab-mark 9 [187 9] [92 9]))))       ; 9 TAB → 187 RIGHT DOUBLE ANGLE QUOTATION MARK 「»」
 
 ;; Enable whitespace mode only for smaller files to avoid performance issues
 (defun my/selective-whitespace-mode ()
@@ -242,16 +269,22 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
-** Claude Code IDE
+** Agent Shell
 #+begin_src emacs-lisp
-(use-package! claude-code-ide
+(use-package! agent-shell
+  :init
+  (require 'agent-shell)
   :config
-  (setq claude-code-ide-use-side-window nil
-        claude-code-ide-focus-claude-after-ediff nil
-        claude-code-ide-switch-tab-on-ediff nil
-        claude-code-ide-show-claude-window-in-ediff nil
-        claude-code-ide-vterm-anti-flicker t)
-  (claude-code-ide-emacs-tools-setup))
+  (setq agent-shell-anthropic-authentication
+                (agent-shell-anthropic-make-authentication :login t)
+        agent-shell-openai-authentication
+                (agent-shell-openai-make-authentication :api-key (lambda () (my/auth-get "openai-api-key")))
+        agent-shell-google-authentication
+                (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key")))))
 
-(map! :leader :desc "Claude Code IDE menu" "." #'claude-code-ide-menu)
+(map! :leader
+      (:prefix ("o a" . "agent-shell")
+       :desc "Start Claude Code agent" "c" #'agent-shell-anthropic-start-claude-code
+       :desc "Start Codex agent" "C" #'agent-shell-openai-start-codex
+       :desc "Start Gemini agent" "g" #'agent-shell-google-start-gemini))
 #+end_src

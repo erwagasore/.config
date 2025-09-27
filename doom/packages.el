@@ -7,9 +7,9 @@
 ;; Enable org-superstar
 (package! org-superstar)
 
-;; Enable Claude Code IDE
-(package! claude-code-ide
-  :recipe (:host github :repo "manzaltu/claude-code-ide.el"))
-
-;; Add Editor Code Assistant
-(package! eca :recipe (:host github :repo "editor-code-assistant/eca-emacs" :files ("*.el")))
+;; Add Agent Shell usin ACP
+(package! shell-maker)
+(package! acp
+  :recipe (:host github :repo "xenodium/acp.el"))
+(package! agent-shell
+  :recipe (:host github :repo "xenodium/agent-shell"))
