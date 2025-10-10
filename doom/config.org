@@ -10,13 +10,25 @@
 
 * Sane Defaults
 #+begin_src emacs-lisp
-;; Optimize garbage collection for better startup performance
-(setq gc-cons-threshold (* 50 1000 1000)) ; 50MB (default is ~800KB)
+;; Even more aggressive during startup
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 
-;; Reset GC threshold after startup
+;; Reset after startup with idle timer
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 2 1000 1000)))) ; 2MB after startup
+            (setq gc-cons-threshold (* 16 1024 1024)  ; 16MB
+                  gc-cons-percentage 0.1)
+            (garbage-collect)))
+
+;; GC when idle
+(run-with-idle-timer 5 t #'garbage-collect)
+
+;; Temporarily disable file handler during startup
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+          (lambda () (setq file-name-handler-alist default-file-name-handler-alist)))
 
 (setq-default
  delete-by-moving-to-trash t
@@ -35,8 +47,11 @@
 
 ;; Allow internal emacs to use posix shell and vterm to user fish
 (setq shell-file-name (executable-find "bash"))
-(setq-default vterm-shell "/opt/homebrew/bin/fish")
-(setq-default explicit-shell-file-name "/opt/homebrew/bin/fish")
+;; More robust shell detection
+(setq-default vterm-shell (or (executable-find "fish") 
+                              "/bin/bash"))
+(setq-default explicit-shell-file-name (or (executable-find "fish")
+                                           "/bin/bash"))
 
 ;; Set Scratch to org-mode as default
 (setq initial-major-mode 'org-mode)
@@ -63,6 +78,13 @@
   (when-let* ((result (car (auth-source-search :host host :max 1)))
               (secret (plist-get result :secret)))
     (funcall secret)))
+
+;; Suppress warnings in minibuffer
+(setq warning-minimum-level :error)
+
+;; Auto-revert files
+(global-auto-revert-mode 1)
+(setq auto-revert-interval 2)
 #+end_src
 
 * Font Rendering
@@ -70,6 +92,10 @@
 (setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
        doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
+
+;; Better Unicode coverage
+(set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
@@ -95,7 +121,7 @@
 
 (add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
-(after! doom-theme
+(after! doom-themes
   (doom-themes-org-config)
   (doom-themes-visual-bell-config)
   (setq doom-themes-enable-bold t
@@ -107,24 +133,19 @@
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
 
-;; transparent adjustment
+;; transparent adjustment for current frame
 (set-frame-parameter (selected-frame) 'alpha '(100 . 96))
-(add-to-list 'default-frame-alist '(alpha . (100 . 96)))
 
-;; remove title bar but round the window
-(add-to-list 'default-frame-alist '(undecorated-round . t))
-
-;; Set window size and center it on screen
-(add-to-list 'default-frame-alist '(width . 145))
-(add-to-list 'default-frame-alist '(height . 43))
-(add-to-list 'initial-frame-alist '(width . 145))
-(add-to-list 'initial-frame-alist '(height . 43))
-
-;; Center the frame on screen using built-in frame positioning
-(add-to-list 'default-frame-alist '(left . 0.5))
-(add-to-list 'default-frame-alist '(top . 0.5))
-(add-to-list 'initial-frame-alist '(left . 0.5))
-(add-to-list 'initial-frame-alist '(top . 0.5))
+;; Cleaner frame setup - consolidate all frame settings
+(setq default-frame-alist
+      '((width . 145)
+        (height . 43)
+        (left . 0.5)
+        (top . 0.5)
+        (alpha . (100 . 96))
+        (undecorated-round . t)))
+;; Apply same settings to initial frame
+(setq initial-frame-alist default-frame-alist)
 
 ;; Maximize the window to fullscreen
 ;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -199,7 +220,16 @@
                              (67 :foreground "#0098dd"))
         org-todo-keywords
         '((sequence "LATER(l)" "NOW(n)" "NEXT(N)" "|" "DONE(d)" "CANCELLED(c)")
-          (sequence "[ ](t)" "[-](s)" "[?](w)" "|" "[X](x)"))))
+          (sequence "[ ](t)" "[-](s)" "[?](w)" "|" "[X](x)")))
+
+  ;; Better defaults
+  (setq org-startup-indented t
+        org-pretty-entities t
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images t
+        org-image-actual-width '(300)
+        org-log-done 'time
+        org-log-into-drawer t))
 
 #+end_src
 ** Web Mode Configurations
@@ -227,16 +257,21 @@
 ** LSP
 #+begin_src emacs-lisp
 (after! eglot
-  (setq eglot-code-action-indications nil))
+  (setq eglot-code-action-indications nil
+        eglot-sync-connect nil
+        eglot-autoshutdown t
+        eglot-send-changes-idle-time 0.5))
 #+end_src
 ** Company
 #+begin_src emacs-lisp
 (after! company
   ;; disable inline previews
   (delq 'company-preview-if-just-one-frontend company-frontends)
-  (setq company-idle-delay 0.0
-        company-minimum-prefix-length 1)
-  (setq company-show-numbers t))
+  (setq company-idle-delay 0.2  ; Slight delay reduces CPU
+        company-minimum-prefix-length 2  ; More reasonable
+        company-tooltip-limit 10
+        company-selection-wrap-around t
+        company-show-numbers t))
 #+end_src
 ** Whitespace
 #+begin_src emacs-lisp
@@ -276,15 +311,24 @@
   (require 'agent-shell)
   :config
   (setq agent-shell-anthropic-authentication
-                (agent-shell-anthropic-make-authentication :login t)
+        (agent-shell-anthropic-make-authentication :login t)
         agent-shell-openai-authentication
-                (agent-shell-openai-make-authentication :api-key (lambda () (my/auth-get "openai-api-key")))
+        (agent-shell-openai-make-authentication :api-key (lambda () (my/auth-get "openai-api-key")))
         agent-shell-google-authentication
-                (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key")))))
+        (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key")))))
 
 (map! :leader
       (:prefix ("o a" . "agent-shell")
        :desc "Start Claude Code agent" "c" #'agent-shell-anthropic-start-claude-code
        :desc "Start Codex agent" "C" #'agent-shell-openai-start-codex
        :desc "Start Gemini agent" "g" #'agent-shell-google-start-gemini))
+#+end_src
+
+* Performance Optimizations
+** Native Compilation
+#+begin_src emacs-lisp
+;; Native compilation settings
+(when (featurep 'native-compile)
+  (setq native-comp-async-report-warnings-errors nil
+        native-comp-deferred-compilation t))
 #+end_src
