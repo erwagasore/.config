@@ -91,6 +91,7 @@
 
    (whitespace-space :foreground (doom-darken modeline-fg-alt 0.72))
    (whitespace-newline :foreground (doom-darken modeline-fg-alt 0.72))
+   (fill-column-indicator :foreground (doom-blend fg bg 0.16))
 
    (doom-modeline-bar :background highlight)
    (doom-modeline-project-dir :foreground violet :weight 'bold)

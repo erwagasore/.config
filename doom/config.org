@@ -87,6 +87,12 @@
 (setq auto-revert-interval 2)
 #+end_src
 
+#+begin_src emacs-lisp
+;; Disable undo-tree persistent history
+(after! undo-tree
+  (setq undo-tree-auto-save-history nil))
+#+end_src
+
 * Font Rendering
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
@@ -296,6 +302,13 @@
   (when (< (buffer-size) (* 100 1024))
     (whitespace-mode 1)))
 
+(defun my/line-length-indicators ()
+  "Set up soft (100) and hard (120) line length indicators."
+  (setq-local fill-column 100)
+  (setq-local whitespace-line-column 120)
+  (display-fill-column-indicator-mode 1))
+
+(add-hook! 'prog-mode-hook #'my/line-length-indicators)
 (add-hook! 'prog-mode-hook #'my/selective-whitespace-mode)
 #+end_src
 ** Magit
@@ -310,12 +323,16 @@
   :init
   (require 'agent-shell)
   :config
-  (setq agent-shell-anthropic-authentication
+  (setq agent-shell-header-style nil
+        agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t)
         agent-shell-openai-authentication
         (agent-shell-openai-make-authentication :api-key (lambda () (my/auth-get "openai-api-key")))
         agent-shell-google-authentication
-        (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key")))))
+        (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key"))))
+  (after! evil
+    (dolist (mode '(agent-shell-ui-mode))
+      (evil-set-initial-state mode 'emacs))))
 
 (map! :leader
       (:prefix ("o a" . "agent-shell")

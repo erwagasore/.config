@@ -19,6 +19,9 @@ fish_add_path /opt/homebrew/opt/grep/libexec/gnubin
 # Add Doom to PATH
 fish_add_path ~/.config/emacs/bin
 
+# Add Zig version from zigup
+fish_add_path /opt/homebrew/Cellar/zigup/2025.05.24/bin
+
 # python alias
 alias python python3
 
@@ -36,3 +39,4 @@ if test "$TERM_PROGRAM" != "WarpTerminal"
    set -x STARSHIP_CONFIG ~/.config/fish/starship.toml
    starship init fish | source
 end
+set -gx SUPERMEMORY_CC_API_KEY "sm_P5PYqvDprQ3vTC6fuKN9XW_HIsnJDGHjUhODkCdOTKcBRbPTkCINMlFbBeYCPNoNbCXrbjpVvgAbtPJjryODlFb"

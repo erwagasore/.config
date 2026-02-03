@@ -25,3 +25,5 @@ fish/fish_variables
 /git/
 /op/
 .aider*
+*.log
+/mole/mole.log

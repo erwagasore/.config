@@ -61,6 +61,7 @@
        (markdown +grip)
        (org)
        (rust +lsp +tree-sitter)
+       (zig +lsp +tree-sitter)
        (swift +lsp +tree-sitter)
        (web +lsp +tree-sitter)
        (yaml +lsp +tree-sitter)
