@@ -36,8 +36,8 @@
 
 (setq mac-mouse-wheel-smooth-scroll t)
 
-;; Increase amount of data read from process
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;; Increase amount of data read from process (4MB for better streaming with AI tools)
+(setq read-process-output-max (* 4 1024 1024)) ;; 4mb
 
 ;; Hide menu-bar
 (menu-bar-mode -1)
@@ -317,28 +317,44 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
-** Agent Shell
+** OpenCode
 #+begin_src emacs-lisp
-(use-package! agent-shell
-  :init
-  (require 'agent-shell)
+(use-package! opencode
+  :defer t
+  :commands (opencode opencode-connect opencode-new-session opencode-select-project)
   :config
-  (setq agent-shell-header-style nil
-        agent-shell-anthropic-authentication
-        (agent-shell-anthropic-make-authentication :login t)
-        agent-shell-openai-authentication
-        (agent-shell-openai-make-authentication :api-key (lambda () (my/auth-get "openai-api-key")))
-        agent-shell-google-authentication
-        (agent-shell-google-make-authentication :api-key (lambda () (my/auth-get "google-api-key"))))
-  (after! evil
-    (dolist (mode '(agent-shell-ui-mode))
-      (evil-set-initial-state mode 'emacs))))
+  ;; Server configuration
+  (setq opencode-host "127.0.0.1"
+        opencode-port 8080
+        opencode-auto-start-server t)  ; Auto-start server if not running
 
+  ;; Authentication (if using password-protected server)
+  ;; (setq opencode-server-username "your-username"
+  ;;       opencode-server-password (lambda () (my/auth-get "opencode-password")))
+
+  ;; Evil mode integration - ensure proper state in opencode buffers
+  (after! evil
+    (evil-set-initial-state 'opencode-mode 'insert)
+    (evil-set-initial-state 'opencode-sessions-mode 'emacs))
+
+  ;; Notifications on macOS
+  (when (eq system-type 'darwin)
+    (setq opencode-notification-function
+          (lambda (title body)
+            (ns-do-applescript
+             (format "display notification %S with title %S"
+                     body title))))))
+
+;; Keybindings
 (map! :leader
-      (:prefix ("o a" . "agent-shell")
-       :desc "Start Claude Code agent" "c" #'agent-shell-anthropic-start-claude-code
-       :desc "Start Codex agent" "C" #'agent-shell-openai-start-codex
-       :desc "Start Gemini agent" "g" #'agent-shell-google-start-gemini))
+      (:prefix ("o c" . "opencode")
+       :desc "Open OpenCode" "c" #'opencode
+       :desc "Connect to server" "C" #'opencode-connect
+       :desc "New session" "n" #'opencode-new-session
+       :desc "Select project" "p" #'opencode-select-project
+       :desc "Select open session" "s" #'opencode-select-open-session
+       :desc "New worktree" "w" #'opencode-new-worktree
+       :desc "Visit last idle" "i" #'opencode-visit-last-idle))
 #+end_src
 
 * Performance Optimizations
