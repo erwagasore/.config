@@ -56,7 +56,7 @@
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        magenta)
-   (comments       (doom-darken base4 0.35))
+   (comments       (doom-lighten base4 0.4))
    (doc-comments   (doom-lighten comments 0.15))
    (constants      violet)
    (functions      green)
