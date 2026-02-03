@@ -18,13 +18,13 @@
 
   ;; Color Palette
   ;; name           default   256       16
-  ((bg            '("#0D0D0D" nil       nil           ))
-   (bg-alt        '("#1A1A1A" nil       nil           ))
-   (base0         '("#0D0D0D" "black"   "black"        ))
-   (base1         '("#1A1A1A" "#1a1a1a" "brightblack"  ))
-   (base2         '("#282828" "#282828" "brightblack"  ))
-   (base3         '("#383838" "#383838" "brightblack"  ))
-   (base4         '("#585858" "#585858" "brightblack"  ))
+  ((bg            '("#121212" nil       nil           ))
+   (bg-alt        '("#1E1E1E" nil       nil           ))
+   (base0         '("#151515" "black"   "black"        ))
+   (base1         '("#1C1C1C" "#1c1c1c" "brightblack"  ))
+   (base2         '("#2A2A2A" "#2a2a2a" "brightblack"  ))
+   (base3         '("#3A3A3A" "#3a3a3a" "brightblack"  ))
+   (base4         '("#5B5B5B" "#5b5b5b" "brightblack"  ))
    (base5         '("#787878" "#787878" "brightblack"  ))
    (base6         '("#989898" "#989898" "brightwhite"  ))
    (base7         '("#C0C0C0" "#C0C0C0" "brightwhite"  ))
@@ -49,9 +49,9 @@
    (green-accent  '("#00AF99" "#008080" "brightgreen"  ))
    (red-accent    '("#D6333F" "#cc5555" "red"          ))
    ;; Additional colors
-   (bg-region     '("#163764" nil       nil            ))
+   (bg-region     '("#1B406F" nil       nil            ))
 
-   (highlight      (doom-darken blue 0.64))
+   (highlight      (doom-darken blue 0.4))
    (vertical-bar   base2)
    (selection      dark-blue)
    (builtin        cyan)
@@ -74,7 +74,7 @@
    (vc-added       green)
    (vc-deleted     red)
 
-   (modeline-fg     nil)
+   (modeline-fg     fg)
    (modeline-fg-alt (doom-blend violet base4 0.2))
 
    (modeline-bg base1)
