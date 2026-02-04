@@ -10,3 +10,7 @@
 ;; Add OpenCode
 (package! opencode
   :recipe (:host codeberg :repo "sczi/opencode.el"))
+
+;; Add pi-coding-agent
+(package! pi-coding-agent
+  :recipe (:host github :repo "dnouri/pi-coding-agent"))

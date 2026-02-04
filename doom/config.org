@@ -78,9 +78,9 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
+(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 15)
        doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
-       doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 14)
+       doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 
 ;; Better Unicode coverage
@@ -350,6 +350,45 @@
        :desc "Select open session" "s" #'opencode-select-open-session
        :desc "New worktree" "w" #'opencode-new-worktree
        :desc "Visit last idle" "i" #'opencode-visit-last-idle))
+#+end_src
+
+** pi-coding-agent
+#+begin_src emacs-lisp
+(use-package! pi-coding-agent
+  :defer t
+  :commands (pi-coding-agent)
+  :init (defalias 'pi 'pi-coding-agent)
+  :config
+  ;; Configuration options
+  (setq pi-coding-agent-input-window-height 10        ; Height of input window
+        pi-coding-agent-tool-preview-lines 10         ; Lines shown before collapsing tool output
+        pi-coding-agent-bash-preview-lines 5          ; Lines shown for bash output
+        pi-coding-agent-context-warning-threshold 70  ; Warn when context exceeds this %
+        pi-coding-agent-context-error-threshold 90    ; Critical when context exceeds this %
+        pi-coding-agent-visit-file-other-window t)    ; RET opens file in other window (nil for same)
+
+  ;; Evil mode integration
+  (after! evil
+    (evil-set-initial-state 'pi-coding-agent-input-mode 'insert)
+    (evil-set-initial-state 'pi-coding-agent-chat-mode 'emacs)))
+
+;; Keybindings
+(map! :leader
+      (:prefix ("o p" . "pi-coding-agent")
+       :desc "Start pi-coding-agent" "p" #'pi-coding-agent
+       :desc "New session" "n" #'pi-coding-agent-new-session
+       :desc "Resume session" "r" #'pi-coding-agent-resume-session
+       :desc "Quit session" "q" #'pi-coding-agent-quit
+       :desc "Reload session" "R" #'pi-coding-agent-reload
+       :desc "Set session name" "N" #'pi-coding-agent-set-session-name
+       :desc "Fork session" "f" #'pi-coding-agent-fork
+       :desc "Export session" "e" #'pi-coding-agent-export-html
+       :desc "Compact session" "c" #'pi-coding-agent-compact
+       :desc "Show stats" "s" #'pi-coding-agent-session-stats
+       :desc "Select model" "m" #'pi-coding-agent-select-model
+       :desc "Toggle thinking" "t" #'pi-coding-agent-cycle-thinking
+       :desc "Open menu" "p" #'pi-coding-agent-menu
+       :desc "Copy last message" "y" #'pi-coding-agent-copy-last-message))
 #+end_src
 
 * Performance Optimizations
