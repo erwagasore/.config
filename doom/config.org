@@ -377,7 +377,7 @@
        :desc "Show stats" "s" #'pi-coding-agent-session-stats
        :desc "Select model" "m" #'pi-coding-agent-select-model
        :desc "Toggle thinking" "t" #'pi-coding-agent-cycle-thinking
-       :desc "Open menu" "p" #'pi-coding-agent-menu
+       :desc "Open menu" "M" #'pi-coding-agent-menu
        :desc "Copy last message" "y" #'pi-coding-agent-copy-last-message))
 #+end_src
 
