@@ -349,13 +349,10 @@
   :commands (pi-coding-agent)
   :init (defalias 'pi 'pi-coding-agent)
   :config
-  ;; Configuration options
-  (setq pi-coding-agent-input-window-height 10        ; Height of input window
-        pi-coding-agent-tool-preview-lines 10         ; Lines shown before collapsing tool output
-        pi-coding-agent-bash-preview-lines 5          ; Lines shown for bash output
-        pi-coding-agent-context-warning-threshold 70  ; Warn when context exceeds this %
-        pi-coding-agent-context-error-threshold 90    ; Critical when context exceeds this %
-        pi-coding-agent-visit-file-other-window t)    ; RET opens file in other window (nil for same)
+  ;; Streaming performance
+  (setq pi-coding-agent-fontify-idle-delay 0.15       ; Faster highlighting during streaming (default 0.2)
+        pi-coding-agent-markdown-search-limit 20000   ; Limit backward search for code blocks in long sessions
+        pi-coding-agent-visit-file-other-window t)
 
   ;; Evil mode integration
   (after! evil
