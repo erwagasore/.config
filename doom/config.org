@@ -19,9 +19,6 @@
 ;; Increase amount of data read from process (4MB for better streaming with AI tools)
 (setq read-process-output-max (* 4 1024 1024)) ;; 4mb
 
-;; Hide menu-bar (Doom already does this, but explicit for clarity)
-(menu-bar-mode -1)
-
 ;; Remove gaps between your emacs frames and other windows
 (setq frame-resize-pixelwise t)
 
@@ -61,11 +58,6 @@
 ;; Suppress warnings in minibuffer
 (setq warning-minimum-level :error)
 
-;; Auto-revert files
-(global-auto-revert-mode 1)
-(setq auto-revert-interval 5
-      auto-revert-avoid-polling t)  ; Use file notifications instead of polling
-
 ;; Handle files with very long lines gracefully
 (global-so-long-mode 1)
 #+end_src
@@ -78,14 +70,11 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 15)
-       doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
-       doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
-       default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
-
-;; Better Unicode coverage
-(set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
-(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
+      doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
+      doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
+      doom-unicode-font (font-spec :family "Apple Color Emoji")
+      default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
@@ -157,7 +146,7 @@
   (set-window-fringes nil 0 0))
 
 (defun xwidget-webkit-no-fringes-hook ()
-  "Custom `xwidget-webkit-mode' behariours."
+  "Custom `xwidget-webkit-mode' behaviours."
   (setq header-line-format nil)
   (add-hook 'window-configuration-change-hook
             'no-fringes-config nil :local))
@@ -250,7 +239,8 @@
   (setq eglot-code-action-indications nil
         eglot-sync-connect nil
         eglot-autoshutdown t
-        eglot-send-changes-idle-time 0.5))
+        eglot-send-changes-idle-time 0.5
+        eglot-events-buffer-size 0))  ; Disable event logging for memory savings
 #+end_src
 ** Company
 #+begin_src emacs-lisp
