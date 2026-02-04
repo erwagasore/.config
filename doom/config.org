@@ -350,8 +350,8 @@
   :init (defalias 'pi 'pi-coding-agent)
   :config
   ;; Streaming performance
-  (setq pi-coding-agent-fontify-idle-delay 0.15       ; Faster highlighting during streaming (default 0.2)
-        pi-coding-agent-markdown-search-limit 20000   ; Limit backward search for code blocks in long sessions
+  (setq pi-coding-agent-fontify-idle-delay 0.15
+        pi-coding-agent-markdown-search-limit 20000
         pi-coding-agent-visit-file-other-window t)
 
   ;; Evil mode integration
