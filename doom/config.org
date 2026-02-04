@@ -10,26 +10,6 @@
 
 * Sane Defaults
 #+begin_src emacs-lisp
-;; Even more aggressive during startup
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
-
-;; Reset after startup with idle timer
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 16 1024 1024)  ; 16MB
-                  gc-cons-percentage 0.1)
-            (garbage-collect)))
-
-;; GC when idle
-(run-with-idle-timer 5 t #'garbage-collect)
-
-;; Temporarily disable file handler during startup
-(defvar default-file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-(add-hook 'emacs-startup-hook
-          (lambda () (setq file-name-handler-alist default-file-name-handler-alist)))
-
 (setq-default
  delete-by-moving-to-trash t
  window-combination-resize t)
@@ -39,7 +19,7 @@
 ;; Increase amount of data read from process (4MB for better streaming with AI tools)
 (setq read-process-output-max (* 4 1024 1024)) ;; 4mb
 
-;; Hide menu-bar
+;; Hide menu-bar (Doom already does this, but explicit for clarity)
 (menu-bar-mode -1)
 
 ;; Remove gaps between your emacs frames and other windows
@@ -60,7 +40,6 @@
 (auto-save-visited-mode t)
 (setq auto-save-timeout 20)  ; 20 seconds instead of 1
 (setq auto-save-interval 200) ; 200 keystrokes instead of 50
-(setq auto-save-visited-file-name t)
 (setq default-directory "~")
 
 ;; Improve the modeline and Icons
@@ -84,7 +63,11 @@
 
 ;; Auto-revert files
 (global-auto-revert-mode 1)
-(setq auto-revert-interval 2)
+(setq auto-revert-interval 5
+      auto-revert-avoid-polling t)  ; Use file notifications instead of polling
+
+;; Handle files with very long lines gracefully
+(global-so-long-mode 1)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -97,6 +80,7 @@
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular"  :size 14)
        doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
+       doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 14)
        default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 
 ;; Better Unicode coverage
@@ -105,6 +89,8 @@
 #+end_src
 * Theme Configurations
 #+begin_src emacs-lisp
+;; Use ns-system-appearance on macOS for automatic theme switching
+;; heaven-and-hell is kept only for manual toggle via C-c t T
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
@@ -118,6 +104,7 @@
   (when (boundp 'ns-system-appearance)
     (my/apply-theme ns-system-appearance)))
 
+;; Manual theme toggle (doesn't interfere with system appearance)
 (after! heaven-and-hell
   (setq heaven-and-hell-themes
         '((light . era)
@@ -125,7 +112,8 @@
   (setq heaven-and-hell-load-theme-no-confirm t)
   (map! :g "C-c t T" 'heaven-and-hell-toggle-theme))
 
-(add-hook 'after-init-hook 'heaven-and-hell-init-hook)
+;; Don't use heaven-and-hell init hook - let ns-system-appearance handle initial theme
+;; (add-hook 'after-init-hook 'heaven-and-hell-init-hook)
 
 (after! doom-themes
   (doom-themes-org-config)
@@ -139,9 +127,6 @@
 ;; Disable Emacs killing confirmation
 (setq confirm-kill-emacs nil)
 
-;; transparent adjustment for current frame
-(set-frame-parameter (selected-frame) 'alpha '(100 . 96))
-
 ;; Cleaner frame setup - consolidate all frame settings
 (setq default-frame-alist
       '((width . 145)
@@ -152,9 +137,7 @@
         (undecorated-round . t)))
 ;; Apply same settings to initial frame
 (setq initial-frame-alist default-frame-alist)
-
-;; Maximize the window to fullscreen
-;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; No need for separate set-frame-parameter call - it's in default-frame-alist
 
 ;; Customize the cursor
 (setq-default
@@ -181,9 +164,11 @@
 
 (add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
 
-;; User relative line numbers only in prog-mode
+;; Use relative line numbers only in prog-mode and text-mode
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'conf-mode-hook #'display-line-numbers-mode)
 
 
 ;; Customise modeline
@@ -204,16 +189,15 @@
 * Languages Configurations
 ** Org Mode Configurations
 #+begin_src emacs-lisp
+(use-package! org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("⁖")
+        org-superstar-item-bullet-alist '((?- . "•") (?+ . "•") (?* . "•"))
+        org-hide-leading-stars t
+        org-superstar-leading-bullet " "))
+
 (after! org
-
-  (use-package! org-superstar
-    :hook (org-mode . org-superstar-mode)
-    :config
-    (setq org-superstar-headline-bullets-list '("⁖")
-          org-superstar-item-bullet-alist '((?- . "•") (?+ . "•") (?* . "•"))
-          org-hide-leading-stars t
-          org-superstar-leading-bullet " "))
-
   (setq org-ellipsis " ... "
         org-todo-keyword-faces
         '(("NOW" :foreground "#7c7c75" :weight normal :underline t)
@@ -241,18 +225,18 @@
 ** Web Mode Configurations
 #+begin_src emacs-lisp
 (after! web-mode
-  (setq indent-tabs-mode nil
-      web-mode-attr-indent-offset nil
-      js-indent-level 2
-      typescript-indent-level 2
-      tab-width 2
-      web-mode-code-indent-offset 2
-      web-mode-css-indent-offset 2
-      web-mode-markup-indent-offset 2
-      web-mode-enable-auto-closing t
-      web-mode-enable-auto-pairing t
-      web-mode-auto-close-style 2
-      web-mode-tag-auto-close-style 2))
+  (setq-default indent-tabs-mode nil)  ; Use setq-default for buffer-local vars
+  (setq web-mode-attr-indent-offset nil
+        js-indent-level 2
+        typescript-indent-level 2
+        tab-width 2
+        web-mode-code-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-markup-indent-offset 2
+        web-mode-enable-auto-closing t
+        web-mode-enable-auto-pairing t
+        web-mode-auto-close-style 2
+        web-mode-tag-auto-close-style 2))
 #+end_src
 ** Rust Mode Configurations
 #+begin_src emacs-lisp
@@ -271,13 +255,13 @@
 ** Company
 #+begin_src emacs-lisp
 (after! company
-  ;; disable inline previews
-  (delq 'company-preview-if-just-one-frontend company-frontends)
+  ;; disable inline previews (use delete instead of delq for safety)
+  (setq company-frontends (delete 'company-preview-if-just-one-frontend company-frontends))
   (setq company-idle-delay 0.2  ; Slight delay reduces CPU
         company-minimum-prefix-length 2  ; More reasonable
         company-tooltip-limit 10
         company-selection-wrap-around t
-        company-show-numbers t))
+        company-show-quick-access t))  ; Renamed from company-show-numbers in newer versions
 #+end_src
 ** Whitespace
 #+begin_src emacs-lisp
@@ -343,7 +327,18 @@
           (lambda (title body)
             (ns-do-applescript
              (format "display notification %S with title %S"
-                     body title))))))
+                     body title)))))
+
+  ;; Workaround for "This command must be called from a menu or a tool bar" error
+  ;; when closing opencode sessions. This occurs when plz timer callbacks fire
+  ;; during session cleanup.
+  (advice-add 'plz--respond :around
+              (lambda (orig-fun &rest args)
+                (condition-case err
+                    (apply orig-fun args)
+                  (error
+                   (unless (string-match-p "menu or a tool bar" (error-message-string err))
+                     (signal (car err) (cdr err))))))))
 
 ;; Keybindings
 (map! :leader
@@ -363,5 +358,20 @@
 ;; Native compilation settings
 (when (featurep 'native-compile)
   (setq native-comp-async-report-warnings-errors nil
-        native-comp-deferred-compilation t))
+        native-comp-jit-compilation t))  ; Emacs 29+ (replaces deprecated native-comp-deferred-compilation)
+#+end_src
+
+** Which-key Performance
+#+begin_src emacs-lisp
+;; Faster which-key popup
+(after! which-key
+  (setq which-key-idle-delay 0.5))  ; Default is 1.0
+#+end_src
+
+** Projectile
+#+begin_src emacs-lisp
+;; Use faster indexing method
+(after! projectile
+  (setq projectile-indexing-method 'hybrid  ; faster than alien for large projects
+        projectile-enable-caching t))
 #+end_src
