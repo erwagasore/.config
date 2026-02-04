@@ -70,9 +70,9 @@
 
 * Font Rendering
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
-      doom-big-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 18)
-      doom-variable-pitch-font (font-spec :family "Pragmasevka Nerd Font" :style "Regular" :size 15)
+(setq doom-font (font-spec :family "PragmataPro Liga" :style "Regular" :size 15)
+      doom-big-font (font-spec :family "PragmataPro Liga" :style "Regular" :size 18)
+      doom-variable-pitch-font (font-spec :family "PragmataPro Liga" :style "Regular" :size 15)
       doom-unicode-font (font-spec :family "Apple Color Emoji")
       default-text-properties '(line-spacing 0 line-height 1 style "Retina"))
 #+end_src
