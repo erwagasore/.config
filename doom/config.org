@@ -362,23 +362,11 @@
     (evil-set-initial-state 'pi-coding-agent-input-mode 'insert)
     (evil-set-initial-state 'pi-coding-agent-chat-mode 'emacs)))
 
-;; Keybindings
+;; Keybindings - only entry points; use C-c C-p inside pi buffers for the full transient menu
 (map! :leader
       (:prefix ("o p" . "pi-coding-agent")
        :desc "Start pi-coding-agent" "p" #'pi-coding-agent
-       :desc "New session" "n" #'pi-coding-agent-new-session
-       :desc "Resume session" "r" #'pi-coding-agent-resume-session
-       :desc "Quit session" "q" #'pi-coding-agent-quit
-       :desc "Reload session" "R" #'pi-coding-agent-reload
-       :desc "Set session name" "N" #'pi-coding-agent-set-session-name
-       :desc "Fork session" "f" #'pi-coding-agent-fork
-       :desc "Export session" "e" #'pi-coding-agent-export-html
-       :desc "Compact session" "c" #'pi-coding-agent-compact
-       :desc "Show stats" "s" #'pi-coding-agent-session-stats
-       :desc "Select model" "m" #'pi-coding-agent-select-model
-       :desc "Toggle thinking" "t" #'pi-coding-agent-cycle-thinking
-       :desc "Open menu" "M" #'pi-coding-agent-menu
-       :desc "Copy last message" "y" #'pi-coding-agent-copy-last-message))
+       :desc "Open menu" "m" #'pi-coding-agent-menu))
 #+end_src
 
 * Performance Optimizations
