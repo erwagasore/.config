@@ -291,57 +291,6 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
-** OpenCode
-#+begin_src emacs-lisp
-(use-package! opencode
-  :defer t
-  :commands (opencode opencode-connect opencode-new-session opencode-select-project)
-  :config
-  ;; Server configuration
-  (setq opencode-host "127.0.0.1"
-        opencode-port 8080
-        opencode-auto-start-server t)  ; Auto-start server if not running
-
-  ;; Authentication (if using password-protected server)
-  ;; (setq opencode-server-username "your-username"
-  ;;       opencode-server-password (lambda () (my/auth-get "opencode-password")))
-
-  ;; Evil mode integration - ensure proper state in opencode buffers
-  (after! evil
-    (evil-set-initial-state 'opencode-mode 'insert)
-    (evil-set-initial-state 'opencode-sessions-mode 'emacs))
-
-  ;; Notifications on macOS
-  (when (eq system-type 'darwin)
-    (setq opencode-notification-function
-          (lambda (title body)
-            (ns-do-applescript
-             (format "display notification %S with title %S"
-                     body title)))))
-
-  ;; Workaround for "This command must be called from a menu or a tool bar" error
-  ;; when closing opencode sessions. This occurs when plz timer callbacks fire
-  ;; during session cleanup.
-  (advice-add 'plz--respond :around
-              (lambda (orig-fun &rest args)
-                (condition-case err
-                    (apply orig-fun args)
-                  (error
-                   (unless (string-match-p "menu or a tool bar" (error-message-string err))
-                     (signal (car err) (cdr err))))))))
-
-;; Keybindings
-(map! :leader
-      (:prefix ("o c" . "opencode")
-       :desc "Open OpenCode" "c" #'opencode
-       :desc "Connect to server" "C" #'opencode-connect
-       :desc "New session" "n" #'opencode-new-session
-       :desc "Select project" "p" #'opencode-select-project
-       :desc "Select open session" "s" #'opencode-select-open-session
-       :desc "New worktree" "w" #'opencode-new-worktree
-       :desc "Visit last idle" "i" #'opencode-visit-last-idle))
-#+end_src
-
 ** pi-coding-agent
 #+begin_src emacs-lisp
 (use-package! pi-coding-agent
