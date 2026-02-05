@@ -45,13 +45,18 @@
       :desc "Open XWidget Browser URL" "o b" #'xwidget-webkit-browse-url)
 
 (defun my/auth-get (host)
-  "Get password for HOST from .authinfo.gpg"
-  (when-let* ((result (car (auth-source-search :host host :max 1)))
-              (secret (plist-get result :secret)))
-    (funcall secret)))
+  "Get password for HOST from .authinfo.gpg.
+Not interactive — must only be called from Elisp to avoid leaking secrets."
+  (let ((secret (when-let* ((result (car (auth-source-search :host host :max 1)))
+                             (raw (plist-get result :secret)))
+                  (funcall raw))))
+    (when secret
+      (prog1 (substring-no-properties secret)
+        (clear-string secret)))))
 
-;; Suppress warnings in minibuffer
-(setq warning-minimum-level :error)
+;; Suppress noisy warnings but keep security-relevant ones (e.g. TLS, package signatures)
+(setq warning-minimum-level :warning)
+(setq warning-suppress-types '((comp) (undo) (defvaralias)))
 
 ;; Handle files with very long lines gracefully
 (global-so-long-mode 1)
@@ -115,7 +120,7 @@
         (height . 43)
         (left . 0.5)
         (top . 0.5)
-        (alpha . (100 . 96))
+        (alpha . (100 . 100))
         (undecorated-round . t)))
 ;; Apply same settings to initial frame
 (setq initial-frame-alist default-frame-alist)
