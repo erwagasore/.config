@@ -7,7 +7,6 @@
 (setq user-full-name "Eugene Rwagasore"
       user-mail-address "mail@rwagasore.com")
 #+end_src
-
 * Sane Defaults
 #+begin_src emacs-lisp
 (setq-default
@@ -287,7 +286,7 @@
 (after! magit
   (setq magit-git-global-arguments (remove "--literal-pathspecs" magit-git-global-arguments)))
 #+end_src
-** pi-coding-agent
+** Pi Coding Agent
 #+begin_src emacs-lisp
 (use-package! pi-coding-agent
   :defer t
