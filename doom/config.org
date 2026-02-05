@@ -31,7 +31,7 @@
 (setq initial-major-mode 'org-mode)
 
 ;; autosave - optimized intervals for better performance
-(auto-save-visited-mode t)
+(auto-save-visited-mode 1)
 (setq auto-save-timeout 20)  ; 20 seconds instead of 1
 (setq auto-save-interval 200) ; 200 keystrokes instead of 50
 (setq default-directory "~")
@@ -43,8 +43,6 @@
 ;; Remap the keybinding to open xwidget browser
 (map! :leader
       :desc "Open XWidget Browser URL" "o b" #'xwidget-webkit-browse-url)
-
-(setq ns-use-srgb-colorspace nil)
 
 (defun my/auth-get (host)
   "Get password for HOST from .authinfo.gpg"
@@ -146,13 +144,13 @@
   (add-hook 'window-configuration-change-hook
             'no-fringes-config nil :local))
 
-(add-hook 'xwidget-webkit-mode-hook 'xwidget-webkit-no-fringes-hook)
+(add-hook! 'xwidget-webkit-mode-hook #'xwidget-webkit-no-fringes-hook)
 
 ;; Use relative line numbers only in prog-mode and text-mode
 (setq display-line-numbers-type 'relative)
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
-(add-hook 'conf-mode-hook #'display-line-numbers-mode)
+(add-hook! 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook! 'text-mode-hook #'display-line-numbers-mode)
+(add-hook! 'conf-mode-hook #'display-line-numbers-mode)
 
 
 ;; Customise modeline
@@ -189,9 +187,9 @@
           ("NEXT" :foreground "#0098dd" :weight normal :underline t)
           ("DONE" :foreground "#50a14f" :weight normal :underline t)
           ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))
-        org-priority-faces '((65 :foreground "#e45649")
-                             (66 :foreground "#da8548")
-                             (67 :foreground "#0098dd"))
+        org-priority-faces '((?A :foreground "#e45649")
+                             (?B :foreground "#da8548")
+                             (?C :foreground "#0098dd"))
         org-todo-keywords
         '((sequence "LATER(l)" "NOW(n)" "NEXT(N)" "|" "DONE(d)" "CANCELLED(c)")
           (sequence "[ ](t)" "[-](s)" "[?](w)" "|" "[X](x)")))
@@ -330,6 +328,6 @@
 #+begin_src emacs-lisp
 ;; Use faster indexing method
 (after! projectile
-  (setq projectile-indexing-method 'hybrid  ; faster than alien for large projects
+  (setq projectile-indexing-method 'alien  ; fastest method on macOS
         projectile-enable-caching t))
 #+end_src
