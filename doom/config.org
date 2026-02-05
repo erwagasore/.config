@@ -25,10 +25,8 @@
 ;; Allow internal emacs to use posix shell and vterm to user fish
 (setq shell-file-name (executable-find "bash"))
 ;; More robust shell detection
-(setq-default vterm-shell (or (executable-find "fish") 
-                              "/bin/bash"))
-(setq-default explicit-shell-file-name (or (executable-find "fish")
-                                           "/bin/bash"))
+(setq-default vterm-shell (or (executable-find "fish") "/bin/bash"))
+(setq-default explicit-shell-file-name (or (executable-find "fish") "/bin/bash"))
 
 ;; Set Scratch to org-mode as default
 (setq initial-major-mode 'org-mode)
@@ -60,9 +58,7 @@
 
 ;; Handle files with very long lines gracefully
 (global-so-long-mode 1)
-#+end_src
 
-#+begin_src emacs-lisp
 ;; Disable undo-tree persistent history
 (after! undo-tree
   (setq undo-tree-auto-save-history nil))
