@@ -120,7 +120,7 @@ Not interactive — must only be called from Elisp to avoid leaking secrets."
         (height . 43)
         (left . 0.5)
         (top . 0.5)
-        (alpha . (98 . 96))
+        (alpha . (100 . 98))
         (undecorated-round . t)))
 ;; Apply same settings to initial frame
 (setq initial-frame-alist default-frame-alist)
